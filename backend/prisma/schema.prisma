@@ -1,0 +1,92 @@
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Transaction {
+  id          Int      @id @default(autoincrement())
+  clientId    Int
+  providerId  Int
+  serviceId   Int
+  amount      Float
+  status      String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  client      User     @relation(name: "ClientTransactions", fields: [clientId], references: [id])
+  provider    User     @relation(name: "ProviderTransactions", fields: [providerId], references: [id])
+  service     Service  @relation(fields: [serviceId], references: [id])
+}
+
+model Review {
+  id          Int      @id @default(autoincrement())
+  clientId    Int
+  providerId  Int
+  serviceId   Int
+  rating      Int
+  comment     String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  client      User     @relation(name: "ClientReviews", fields: [clientId], references: [id])
+  provider    User     @relation(name: "ProviderReviews", fields: [providerId], references: [id])
+  service     Service  @relation(fields: [serviceId], references: [id])
+}
+
+model User {
+  id                  Int       @id @default(autoincrement())
+  name                String
+  email               String    @unique
+  password            String
+  role                String
+  services            Service[]
+  clientTransactions  Transaction[] @relation(name: "ClientTransactions")
+  providerTransactions Transaction[] @relation(name: "ProviderTransactions")
+  clientReviews       Review[]  @relation(name: "ClientReviews")
+  providerReviews     Review[]  @relation(name: "ProviderReviews")
+
+  Notification Notification[]
+
+  Portfolio Portfolio[]
+}
+
+model Service {
+  id          Int        @id @default(autoincrement())
+  providerId  Int
+  description String
+  price       Float
+  category    String
+  status      String
+  images      String
+  location    String
+  user        User       @relation(fields: [providerId], references: [id])
+
+  Review Review[]
+
+  Transaction Transaction[]
+}
+
+model Notification {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  message   String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id])
+}
+
+model Portfolio {
+  id          Int      @id @default(autoincrement())
+  providerId  Int
+  title       String
+  description String
+  image      String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  provider    User     @relation(fields: [providerId], references: [id])
+}
