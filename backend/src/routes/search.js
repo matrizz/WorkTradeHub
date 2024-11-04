@@ -3,7 +3,6 @@ import prisma from "../models/Service.js"
 
 const router = express.Router()
 
-// Pesquisa de serviços com filtros
 router.get("/services", async (req, res) => {
   const { location, category, priceRange, rating } = req.query
   try {

@@ -16,12 +16,12 @@ router.post("/register", async (req, res) => {
       data: { name, email, password: hashedPassword, role },
     })
 
-    const payload = { userId: user.id }
+    const payload = { userId: user.cuid }
     const token = jwt.sign(payload, process.env.JWT_SECRET, {
       expiresIn: "1h",
     })
 
-    res.status(201).json({ token })
+    res.status(201).json({ token, cuid: user.cuid })
   } catch (err) {
     res.status(500).json({ msg: "Erro no servidor", err })
   }
@@ -34,15 +34,15 @@ router.post("/login", async (req, res) => {
     if (!user) return res.status(400).json({ msg: "Usuário não encontrado" })
 
     const isMatch = await bcrypt.compare(password, user.password)
-    if (!isMatch) return res.status(400).json({ msg: "Credenciais inválidas" })
+    if (!isMatch) return res.status(401).json({ msg: "Credenciais inválidas" })
 
-    const payload = { userId: user.id }
+    const payload = { userId: user.cuid }
     const token = jwt.sign(payload, process.env.JWT_SECRET, {
       expiresIn: "1h",
     })
 
     console.log(token)
-    res.status(200).json({ token })
+    res.status(200).json({ token, cuid: user.cuid })
   } catch (err) {
     res.status(500).json({ msg: "Erro no servidor" })
   }

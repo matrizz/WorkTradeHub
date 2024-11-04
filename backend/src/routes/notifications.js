@@ -4,7 +4,6 @@ import authMiddleware from "../middleware/auth.js"
 
 const router = express.Router()
 
-// Criar nova notificação
 router.post("/", authMiddleware, async (req, res) => {
   const { message } = req.body
   try {
@@ -20,7 +19,6 @@ router.post("/", authMiddleware, async (req, res) => {
   }
 })
 
-// Buscar notificações do usuário
 router.get("/", authMiddleware, async (req, res) => {
   try {
     const notifications = await prisma.findMany({
@@ -32,7 +30,6 @@ router.get("/", authMiddleware, async (req, res) => {
   }
 })
 
-// Marcar notificações como lidas
 router.put("/:id", authMiddleware, async (req, res) => {
   const { id } = req.params
   try {

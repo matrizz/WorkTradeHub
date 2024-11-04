@@ -4,7 +4,7 @@ import authMiddleware from "../middleware/auth.js"
 
 const router = express.Router()
 
-// Criar nova transação
+
 router.post("/", authMiddleware, async (req, res) => {
   const { providerId, serviceId, amount, status } = req.body
   try {
@@ -23,7 +23,7 @@ router.post("/", authMiddleware, async (req, res) => {
   }
 })
 
-// Buscar transações
+
 router.get("/", authMiddleware, async (req, res) => {
   try {
     const transactions = await prisma.findMany({
