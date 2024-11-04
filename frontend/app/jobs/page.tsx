@@ -1,12 +1,9 @@
-'use client'
 import Scaffold from "../components/scaffold";
-import Card from '../components/services';
-import ListServiceItem from "../components/services/ListServiceItem";
 import { KeyboardBackspace } from "@mui/icons-material";
 
+export default function Jobs() {
+    return(
 
-export default function Search() {
-    return (
         <Scaffold
             header={
                 <div className='w-full h-full flex items-center justify-between px-6 py-1'>
@@ -21,27 +18,17 @@ export default function Search() {
             }
             styles={{
                 header: 'bg-slate-800 h-36 w-full px-2 py-3',
-                main: 'bg-white text-black w-full py-10 px-0 flex flex-col gap-10',
+                main: 'bg-white text-black w-full p-10 flex flex-col gap-10',
                 footer: 'bg-slate-800 h-32 w-full'
             }}>
 
-            <div className="justify-center items-center flex w-full h-full">
-                <div className="flex justify-center items-center  w-[100%] h-48  bg-slate-200 "></div>
+            <div className="flex justify-center items-center w-full h-7 gap-4">
+            <button className="border-2 border-slate-800 rounded-xl w-20 h-10">Criado</button>
+                <button className="border-2 border-slate-800 rounded-xl w-20 h-10">Atribuído</button>
             </div>
 
-            <div className="flex justify-right p-4 items-center w-full h-7 ">
-            <button className='text-xl font-bold  transition-all duration-300 gap-2 flex items-center w-72 h-7'>Section title<KeyboardBackspace className='rotate-180' /></button>
-            </div>
+            
 
-            <div className="">
-                {Array.from({ length: 50 }).map((item, index) => <ListServiceItem key={index} />)}
-            </div>
-        </Scaffold>
-
-
-
-
-
-
+            </Scaffold>
     )
 }

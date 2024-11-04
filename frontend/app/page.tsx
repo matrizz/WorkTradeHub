@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import Scaffold from './components/scaffold';
 import Card from './components/services';
 import Filter from './components/filter';
+import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 
 // ====================TEMPORARIO APENAS==========================
 function Loading() {
@@ -46,16 +47,8 @@ export default function Home() {
       const user = await response.then(res => res.json())
       setCurrentUser(user)
     })()
-    
-  }
 
-  // if (true) {
-  //   return (
-  //     <div className='w-full h-screen flex justify-center font-bold text-2xl animate-pulse items-center'>
-  //       Estamos trabalhando no projeto. Em breve a página estará disponível.
-  //     </div>
-  //   )
-  // }
+  }
 
   return (
     <Scaffold
@@ -83,23 +76,23 @@ export default function Home() {
         </div>
       </div>
 
-      <div className={`w-full flex ${isListView? 'flex-col' : 'flex-wrap'} transition-all justify-center gap-2`}>
-        {Array.from({length: 50}).map((card, i)=> (
-          <Card viewMode={isListView} key={i} title="Card Title" desc="This is a description of the card. It can contain details about the content of the card." imageUrl="https://via.placeholder.com/150" price={'R$100,00'} />        
+      <div className={`w-full flex ${isListView ? 'flex-col' : 'flex-wrap'} transition-all justify-center gap-2`}>
+        {Array.from({ length: 50 }).map((card, i) => (
+          <Card viewMode={isListView} key={i} title="Card Title" desc="This is a description of the card. It can contain details about the content of the card." imageUrl="https://via.placeholder.com/150" price={'R$100,00'} />
         ))}
       </div>
     </Scaffold>
   );
 }
-const Header = ({currentUser}) => {
+const Header = ({ currentUser }) => {
   return (
     <div className='w-full h-full flex items-center justify-between px-6 py-1'>
-      <p className='text-lg font-bold hover:-translate-x-3 transition-all duration-300'>Back Icon</p>
+      <button className='text-xl font-bold hover:-translate-x-3 transition-all duration-300 flex gap-2 justify-center items-center'><KeyboardBackspaceIcon className='w-20 h-20' /><p className='justify-center items-center text-lg'>Home</p></button>
       <div className='h-ful rounded-lg px-4 flex justify-center items-center gap-2 hover:scale-105 transition-all duration-300'>
         <div className='text-right flex flex-col gap-1'>
-          <p className='font-bold text-lg'>{currentUser?.name.split(' ').slice(0, 2).join(' ')}</p>
+          {/* <p className='font-bold text-lg'>{currentUser?.name.split(' ').slice(0, 2).join(' ')}</p> */}
         </div>
-        <div className='border-2 border-white w-24 h-24 rounded-full'></div>
+        <div className='border-2 border-white w-20 h-20 rounded-full'></div>
       </div>
     </div>
   )

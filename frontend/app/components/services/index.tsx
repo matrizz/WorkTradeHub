@@ -11,9 +11,10 @@ interface Service {
     images: string
     location: string
     providerId: string
+    styles: string
 }
 
-const ServiceDetails = (props: Service, viewMode?: boolean) => {
+const Card = (props: Service, viewMode?: boolean) => {
 
     const router = useRouter();
     const { id } = useParams()
@@ -37,7 +38,7 @@ const ServiceDetails = (props: Service, viewMode?: boolean) => {
     // }
 
     return (
-        <div className={`container min-w-72 ${viewMode ? 'w-full' : 'w-min'} mx-auto px-4 py-8 rounded-lg shadow-md`}>
+        <div className={`container min-w-72  ${viewMode ? 'w-full' : 'w-min'} ${service?.styles} mx-auto px-4 py-8 rounded-lg shadow-md`}>
             <h2 className="text-xl font-bold mb-4">{service?.desc}</h2>
             <p className="text-lg mb-4">Preço: {service?.price}</p>
             <button
@@ -50,4 +51,4 @@ const ServiceDetails = (props: Service, viewMode?: boolean) => {
     )
 };
 
-export default ServiceDetails
+export default Card
