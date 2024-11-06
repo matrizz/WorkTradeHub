@@ -25,9 +25,10 @@ model Transaction {
 model User {
   cuid                 String        @id @default(cuid())
   name                 String
+  cpf                  String        @unique
   email                String        @unique
   password             String
-  role                 String
+  role                 Role
   services             Service[]
   clientTransactions   Transaction[] @relation(name: "ClientTransactions")
   providerTransactions Transaction[] @relation(name: "ProviderTransactions")
@@ -57,4 +58,9 @@ model Notification {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   user      User     @relation(fields: [userId], references: [cuid])
+}
+
+enum Role {
+  user
+  admin
 }

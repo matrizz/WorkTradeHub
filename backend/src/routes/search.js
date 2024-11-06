@@ -1,27 +1,26 @@
-import express from "express"
-import prisma from "../models/Service.js"
+import express from "express";
+import { PrismaClient } from "@prisma/client";
+import authMiddleware from "../middleware/auth.js";
 
-const router = express.Router()
+const prisma = new PrismaClient();
+const router = express.Router();
 
-router.get("/services", async (req, res) => {
-  const { location, category, priceRange, rating } = req.query
+router.get("/search", async (req, res) => {
+  const { nome, category, minPrice, maxPrice, location, status } = req.query;
   try {
-    const services = await prisma.findMany({
+    const services = await prisma.service.findMany({
       where: {
-        AND: [
-          location ? { location: { contains: location } } : {},
-          category ? { category: { equals: category } } : {},
-          priceRange
-            ? { price: { gte: priceRange[0], lte: priceRange[1] } }
-            : {},
-          rating ? { rating: { gte: rating } } : {},
-        ],
+        description: { contains: nome, mode: 'insensitive' },
+        category,
+        price: { gte: minPrice, lte: maxPrice },
+        location: { contains: location, mode: 'insensitive' },
+        status,
       },
-    })
-    res.status(200).json(services)
+    });
+    res.status(200).json(services);
   } catch (err) {
-    res.status(500).json({ msg: "Erro no servidor" })
+    res.status(500).json({ msg: "Erro no servidor" });
   }
-})
+});
 
-export default router
+export default router;

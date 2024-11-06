@@ -23,8 +23,8 @@ app.use(cors({
 
 app.use("/api/auth", authRoutes)
 app.use("/api/services", serviceRoutes)
+app.use("/api/services", searchRoutes)
 app.use("/api/transactions", transactionRoutes)
-app.use("/api/search", searchRoutes)
 app.use("/api/notifications", notificationRoutes)
 app.use("/api/users", userRoutes)
 
