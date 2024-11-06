@@ -1,7 +1,13 @@
 import Scaffold from "@/app/components/scaffold";
 import Input from "@/app/components/services/InputService";
 import { KeyboardBackspace } from "@mui/icons-material";
-export default async function Profile({ params }: { params: { id: string, tk: string } }) {
+
+interface Params {
+    id: string;
+    tk: string;
+}
+
+export default async function Profile({ params }: { params: Promise<Params> }) {
     const { id, tk } = await params
     const response = fetch(`http://localhost:5000/api/users/${id}`, { headers: { 'Authorization': tk } });
 
