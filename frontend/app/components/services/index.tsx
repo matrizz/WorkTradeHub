@@ -1,54 +1,33 @@
-import { useParams, useRouter } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
-
-
-interface Service {
-    id: string
-    desc: string
-    price: number
-    category: string
-    status: string
-    images: string
-    location: string
-    providerId: string
-    styles: string
+interface ServiceItemProps {
+    title: string,
+    description: string,
+    price: number | string,
+    images: string,
+    location: string,
+    onClick: () => void
 }
 
-const Card = (props: Service, viewMode?: boolean) => {
 
-    const router = useRouter();
-    const { id } = useParams()
-
-    const [service, setService] = useState<Service>(props);
-
-    useEffect(() => {
-        if (id) {
-            fetch(`/api/services/${id}`)
-                .then((response) => response.json())
-                .then((data) => setService(data));
-        }
-    }, [id]);
-
-    const startChat = () => {
-        router.push(`/chat?room=${service.id}`);
-    };
-
-    // if (!service) {
-    //     return <div>Carregando...</div>
-    // }
-
+export default function Services({ title, description, price, images, location, onClick }: ServiceItemProps) {
     return (
-        <div className={`container min-w-72  ${viewMode ? 'w-full' : 'w-min'} ${service?.styles} mx-auto px-4 py-8 rounded-lg shadow-md`}>
-            <h2 className="text-xl font-bold mb-4">{service?.desc}</h2>
-            <p className="text-lg mb-4">Preço: {service?.price}</p>
-            <button
-                onClick={startChat}
-                className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-            >
-                Conversar com o Empregador
-            </button>
+        <div className="w-96 text-black flex flex-col gap-2">
+            <div className="w-full max-h-36 border-2 flex">
+                <img src={images} className="w-min object-cover" alt="service image" />
+            </div>
+            <div className="w-full flex flex-col text-start px-2 gap-3">
+                <p className="font-bold text-lg">{title}</p>
+                <div className="w-full flex justify-between items-end">
+                    <div className="text-sm text-gray-400">
+                        <p>{description}</p>
+                        <p className="text-gray-400 font-bold">{location}</p>
+                    </div>
+                    <p>{price}</p>
+                </div>
+                <div className="w-full flex justify-between gap-4">
+                    <button className="w-full h-10 bg-slate-800 text-white px-2" onClick={onClick}>Candidatar-se</button>
+                    <button className="w-full h-10 bg-slate-800 text-white px-2" onClick={onClick}>Conversar</button>
+                </div>
+            </div>
         </div>
     )
-};
-
-export default Card
+}
