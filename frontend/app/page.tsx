@@ -31,7 +31,7 @@ export default function Page() {
   function redirect() { return router.push('/login') }
 
   useEffect(() => {
-    if (!session) redirect()
+    if (!sessionStorage.getItem('tk')) redirect()
     else setSession(sessionStorage.getItem('tk'))
   }, [])
   useEffect(() => {
