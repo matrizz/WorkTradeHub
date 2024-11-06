@@ -1,12 +1,8 @@
-// app/page.tsx
-//@ts-nocheck
-'use client'
-import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
-import Scaffold from './components/scaffold';
-import Card from './components/services';
-import Filter from './components/filter';
-import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
+'use client';
+import DescProfile from "./components/descProfile";
+import Services from "./components/services";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 // ====================TEMPORARIO APENAS==========================
 function Loading() {
@@ -14,15 +10,22 @@ function Loading() {
 }
 // ====================TEMPORARIO APENAS==========================
 
+interface User {
+  cuid: string
+  name: string
+  cpf: string
+  email: string
+  password: string
+  role: "user" | "admin"
+}
 
-
-export default function Home() {
-
+export default function Page() {
   const router = useRouter()
-  const [jobs, setJobs] = useState();
-  const [session, setSession] = useState(sessionStorage.getItem('tk'))
+  const [jobs, setJobs] = useState<any[]>([]);
+  const [session, setSession] = useState<string|null>()
   const [isListView, setIsListView] = useState(false)
-  const [currentUser, setCurrentUser] = useState()
+  const [currentUser, setCurrentUser] = useState<User>()
+  const [search, setSearch] = useState('')
 
 
   function redirect() { return router.push('/login') }
@@ -31,7 +34,10 @@ export default function Home() {
     if (!session) redirect()
     else setSession(sessionStorage.getItem('tk'))
   }, [])
-  useEffect((getJobs, getUserData), []);
+  useEffect(() => {
+    getJobs()
+    getUserData()
+  }, []);
   if (!jobs) { }
 
   function getJobs() {
@@ -42,63 +48,74 @@ export default function Home() {
   }
 
   function getUserData() {
+    //@ts-ignore
     const response = fetch(`http://localhost:5000/api/users/${sessionStorage.getItem('cuid')}`, { headers: { "Authorization": session } });
     (async () => {
-      const user = await response.then(res => res.json())
+      const user: User = await response.then(res => res.json())
       setCurrentUser(user)
     })()
 
   }
 
-  return (
-    <Scaffold
-      header={<Header currentUser={currentUser} />}
-      footer={<Footer />}
-      styles={{
-        header: 'bg-slate-800 h-36 w-full px-2 py-3',
-        main: 'bg-white text-black w-full p-10 flex flex-col gap-10',
-        footer: 'bg-slate-800 h-32 w-full'
-      }}>
-      <div className='w-full flex flex-col justify-center items-center gap-10 px-20'>
-        <input className='w-96 h-10 shadow-lg shadow-gray-200 text-xl outline-none px-4 rounded-xl border border-gray-300' type="text" />
-        <div className='w-full flex justify-between px-4 items-center bg-slate-50 rounded-md'>
+  async function handleSearch() {
+    if (search !== '') {
 
-          <div className='h-20 w-full items-center flex gap-3'>
-            <Filter text={'Filtrar'} onClick={() => { }} />
-            <Filter text={'Filtrar'} onClick={() => { }} />
-          </div>
-          <div>
-            <div className='w-full h-20 flex justify-center items-center gap-5 bg-slate-50'>
-              <button className='text-2xl shadow-md size-10 rounded-md bg-slate-50 font-thin' disabled={isListView} onClick={() => setIsListView(true)}>=</button>
-              <button className='text-xl shadow-md size-10 rounded-md bg-slate-50 font-bold' disabled={!isListView} onClick={() => setIsListView(false)} >:::</button>
-            </div>
-          </div>
-        </div>
-      </div>
+      const formattedSearch = new URLSearchParams({ name: search }).toString()
+      console.log(formattedSearch)
+      //@ts-ignore
+      const filteredJobs = await fetch(`http://localhost:5000/api/services/search?${formattedSearch}`, { headers: { "Authorization": session } })
+      setJobs(await filteredJobs.json())
+    }
 
-      <div className={`w-full flex ${isListView ? 'flex-col' : 'flex-wrap'} transition-all justify-center gap-2`}>
-        {Array.from({ length: 50 }).map((card, i) => (
-          <Card viewMode={isListView} key={i} title="Card Title" desc="This is a description of the card. It can contain details about the content of the card." imageUrl="https://via.placeholder.com/150" price={'R$100,00'} />
-        ))}
-      </div>
-    </Scaffold>
-  );
-}
-const Header = ({ currentUser }) => {
+  }
+
   return (
-    <div className='w-full h-full flex items-center justify-between px-6 py-1'>
-      <button className='text-xl font-bold hover:-translate-x-3 transition-all duration-300 flex gap-2 justify-center items-center'><KeyboardBackspaceIcon className='w-20 h-20' /><p className='justify-center items-center text-lg'>Home</p></button>
-      <div className='h-ful rounded-lg px-4 flex justify-center items-center gap-2 hover:scale-105 transition-all duration-300'>
-        <div className='text-right flex flex-col gap-1'>
-          {/* <p className='font-bold text-lg'>{currentUser?.name.split(' ').slice(0, 2).join(' ')}</p> */}
+
+    <div className="mx-auto h-full bg-white flex flex-col gap-10">
+      <header className="h-28 flex justify-between items-center bg-slate-700 border-b-2 px-8 py-1">
+        <script src="https://unpkg.com/react/umd/react.development.js"></script>
+        <script src="https://unpkg.com/react-dom/umd/react-dom.development.js"></script>
+        <script src="https://unpkg.com/@babel/standalone/babel.js"></script>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
+
+        <h1 className="text-3xl font-bold text-white tracking-[0.05rem] italic">WorkTradeHub</h1>
+        {/* @ts-ignore */}
+        <DescProfile currentUser={currentUser} />
+      </header>
+      <main className="w-full text-center flex flex-col gap-8 mt-10">
+        <div className="w-full flex flex-col gap-2">
+          <h1 className="text-4xl font-bold text-slate-700">Book trusted help</h1>
+          <h1 className="text-4xl font-bold text-slate-700">for home tasks</h1>
         </div>
-        <div className='border-2 border-white w-20 h-20 rounded-full'></div>
-      </div>
+        <div className="w-full flex flex-col gap-8">
+          <div className="flex justify-center">
+            <input type="text" placeholder="Pesquise um serviço" value={search} onChange={e => setSearch(e.target.value)} className="border text-black rounded-l-full py-2 px-4 w-1/2" />
+            <button onClick={handleSearch} className="bg-slate-700 text-white rounded-r-full px-4">
+              <i className="fas fa-search" />
+            </button>
+          </div>
+
+          <div className="flex justify-center flex-wrap space-x-4 gap-2">
+            <button className="border rounded-full py-2 px-4 border-slate-700 text-slate-700 hover:scale-105 hover:cursor-pointer transition-all duration-300">General Furniture Assembly</button>
+            <button className="border rounded-full py-2 px-4 border-slate-700 text-slate-700">IKEA Assembly</button>
+            <button className="border rounded-full py-2 px-4 border-slate-700 text-slate-700">Crib Assembly</button>
+            <button className="border rounded-full py-2 px-4 border-slate-700 text-slate-700">PAX Assembly</button>
+            <button className="border rounded-full py-2 px-4 border-slate-700 text-slate-700">Bookshelf Assembly</button>
+            <button className="border rounded-full py-2 px-4 border-slate-700 text-slate-700">Desk Assembly</button>
+          </div>
+
+        </div>
+        <div className="p-4 rounded-lg flex justify-center flex-wrap gap-4">
+          {
+            jobs.length > 0?
+              jobs.map((job, i) => {
+                return <Services key={i} title={job.name} images={job.images} description={job.description} price={job.price} location={job.location} onClick={() => { }} />
+              })
+              : <div className="text-center text-gray-300 text-xl">Nada por aqui!</div>
+          }</div>
+      </main>
     </div>
-  )
-}
-const Footer = () => {
-  return (
-    <div></div>
   )
 }

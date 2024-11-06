@@ -1,6 +1,7 @@
 'use client'
 import { useRouter } from "next/navigation";
 import { useState, FormEvent, useEffect } from "react";
+import { ValidarCpf } from "../utils/validarcpfRefat";
 
 export default function Login() {
 
@@ -8,15 +9,18 @@ export default function Login() {
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [name, setName] = useState<string>('');
+    const [CPF, setCPF] = useState<string>('');
     const [passwordConfirm, setPasswordConfirm] = useState<string>('');
     const [ERR, SET_ERR] = useState<{ msg: string } | undefined>();
     const [ERR_CONFIRM_PASS, SET_ERR_CONFIRM_PASS] = useState<boolean>(false)
+    const [ERR_CPF, SET_ERR_CPF] = useState<boolean>(false)
 
 
     const [MESSAGES] = useState({
         DIFF: 'As senhas devem ser iguais',
         EMPTY: 'Preencha todos os campos',
         INVALID: 'Credenciais inválidas',
+        INVALID_CPF: 'CPF inválido',
         SERVER: 'Erro no servidor',
         SUCCESS: 'Registrado com sucesso',
         EXIST: 'Email ja existe',
@@ -35,6 +39,7 @@ export default function Login() {
         let bodyContent = JSON.stringify({
             "name": name,
             "email": email,
+            "cpf": CPF,
             "password": password,
             "role": "user"
         }
@@ -46,7 +51,11 @@ export default function Login() {
             headers: headersList
         });
 
+        if (!response.ok) {
+            return alert('Erro no servidor')
+        }
         let data = await response.text();
+
         sessionStorage.setItem('tk', JSON.parse(data).token)
         sessionStorage.setItem('cuid', JSON.parse(data).cuid)
         router.push('/')
@@ -66,6 +75,19 @@ export default function Login() {
 
     }, [password, passwordConfirm])
 
+    useEffect(() => {
+        if (CPF.length === 11) {
+
+            setTimeout(() => {
+                if (!ValidarCpf(CPF)) {
+                    SET_ERR({ msg: MESSAGES['INVALID_CPF'] })
+                }
+                else SET_ERR(undefined)
+
+            }, 1000)
+        }
+    }, [CPF])
+
     return (
         <div className="flex items-center text-black justify-center min-h-screen bg-gray-100">
             <div className="w-full max-w-sm p-8 bg-white rounded-lg shadow-md">
@@ -78,6 +100,10 @@ export default function Login() {
                     <div className="mb-4">
                         <label className="block text-gray-700">Email:</label>
                         <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="w-full px-4 py-2 mt-1 border rounded-md focus:outline-none focus:ring focus:ring-indigo-200" required />
+                    </div>
+                    <div className="mb-4">
+                        <label className="block text-gray-700">CPF:</label>
+                        <input type="text" value={CPF} onChange={(e) => setCPF(e.target.value)} className={`${ERR_CPF ? 'text-red-500 ring-2 ring-red-500' : ''} w-full px-4 py-2 mt-1 border rounded-md focus:outline-none focus:ring focus:ring-indigo-200`} required />
                     </div>
                     <div className="mb-4">
                         <label className="block text-gray-700">Senha:</label>
