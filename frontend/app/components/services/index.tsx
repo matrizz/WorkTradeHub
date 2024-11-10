@@ -4,14 +4,16 @@ interface ServiceItemProps {
     price: number | string,
     images: string,
     location: string,
+    primaryText: string,
+    secondaryText: string,
     onClick: () => void
 }
 
 
-export default function Services({ title, description, price, images, location, onClick }: ServiceItemProps) {
+export default function Services({ title, description, price, images, location, primaryText, secondaryText, onClick }: ServiceItemProps) {
     return (
-        <div className="w-96 text-black flex flex-col gap-2">
-            <div className="w-full max-h-36 border-2 flex">
+        <div className="w-96 text-black flex flex-col shadow-gray-300 shadow-lg gap-2 p-1">
+            <div className="w-full h-42 max-h-42 border-2 flex shadow-md">
                 <img src={images} className="w-min object-cover" alt="service image" />
             </div>
             <div className="w-full flex flex-col text-start px-2 gap-3">
@@ -24,8 +26,8 @@ export default function Services({ title, description, price, images, location, 
                     <p>{price}</p>
                 </div>
                 <div className="w-full flex justify-between gap-4">
-                    <button className="w-full h-10 bg-slate-800 text-white px-2" onClick={onClick}>Candidatar-se</button>
-                    <button className="w-full h-10 bg-slate-800 text-white px-2" onClick={onClick}>Conversar</button>
+                    <button className="w-full h-10 bg-slate-800 text-white px-2" onClick={onClick}>{primaryText}</button>
+                    <button className="w-full h-10 bg-slate-800 text-white px-2" onClick={onClick}>{secondaryText}</button>
                 </div>
             </div>
         </div>
