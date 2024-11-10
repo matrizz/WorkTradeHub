@@ -2,6 +2,7 @@
 import { useRouter } from "next/navigation";
 import { useState, FormEvent, useEffect } from "react";
 import { ValidarCpf } from "../utils/validarcpfRefat";
+import Link from "next/link";
 
 export default function Login() {
 
@@ -58,7 +59,7 @@ export default function Login() {
 
         sessionStorage.setItem('tk', JSON.parse(data).token)
         sessionStorage.setItem('cuid', JSON.parse(data).cuid)
-        router.push('/')
+        router.push('/verify-email')
     };
 
     useEffect(() => {
@@ -124,6 +125,9 @@ export default function Login() {
                         Entrar
                     </button>
                 </form>
+                <div className="mt-4">
+                    <p>Já possui uma conta?</p><Link href="/register" className="text-normal text-gray-600 hover:text-blue-700">Fazer login</Link>
+                </div>
             </div>
         </div>
     )

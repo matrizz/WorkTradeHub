@@ -65,7 +65,7 @@ export default function Login() {
                     </button>
                 </form>
                 <div className="mt-4">
-                    <Link href="/register" className="text-normal text-gray-600 hover:text-blue-700">Ainda não possui uma conta? Crie uma!</Link>
+                    <p>Ainda não possui uma conta?</p><Link href="/register" className="text-normal text-gray-600 hover:text-blue-700">Crie uma!</Link>
 
                 </div>
             </div>
