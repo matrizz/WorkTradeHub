@@ -16,7 +16,7 @@ interface User {
 
 export default function Profile() {
 
-    const [jobs, setJobs] = useState<any[]>([]);
+    const [jobs, setJobs] = useState<any[]>([])
 
     return (
         <div className="mx-auto bg-white flex flex-col  gap-20">
