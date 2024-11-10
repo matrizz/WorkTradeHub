@@ -1,81 +1,96 @@
-import Scaffold from "@/app/components/scaffold";
-import Input from "@/app/components/services/InputService";
-import { KeyboardBackspace } from "@mui/icons-material";
+'use client'
 
-interface Params {
-    id: string;
-    tk: string;
+import { useRouter } from "next/router";
+import DescProfile from "../../components/descProfile";
+import { useState, useEffect } from "react";
+import Services from "../../components/services";
+
+interface User {
+    cuid: string
+    name: string
+    cpf: string
+    email: string
+    password: string
+    role: "user" | "admin"
 }
 
-export default async function Profile({ params }: { params: Promise<Params> }) {
-    const { id, tk } = await params
-    const response = fetch(`http://localhost:5000/api/users/${id}`, { headers: { 'Authorization': tk } });
+export default function Profile() {
 
-    const user = (async () => {
-        const user = await response.then(console.log)
-        console.log(user)
-        return user
-    })()
+    const [jobs, setJobs] = useState<any[]>([]);
 
     return (
+        <div className="mx-auto bg-white flex flex-col  gap-20">
+            <header className="h-28 flex justify-between items-center bg-slate-700 border-b-2 px-8 py-1">
+                <script src="https://unpkg.com/react/umd/react.development.js"></script>
+                <script src="https://unpkg.com/react-dom/umd/react-dom.development.js"></script>
+                <script src="https://unpkg.com/@babel/standalone/babel.js"></script>
+                <script src="https://cdn.tailwindcss.com"></script>
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+                <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
 
-    <Scaffold
-            header={
-                <div className='w-full h-full flex items-center justify-between px-6 py-1'>
-                    <button className='text-xl font-bold hover:-translate-x-3 transition-all duration-300 flex gap-2 justify-center items-center'><KeyboardBackspace className='w-6 h-6' /><p className='justify-center items-center text-lg'>Home</p></button>
-                    <div className='h-ful rounded-lg px-4 flex justify-center items-center gap-2 hover:scale-105 transition-all duration-300'>
-                        <div className='text-right flex flex-col gap-1'>
-                            {/* <p className='font-bold text-lg'>{currentUser?.name.split(' ').slice(0, 2).join(' ')}</p> */}
+                <h1 className="text-3xl font-bold text-white tracking-[0.05rem] italic">WorkTradeHub</h1>
+            </header>
+
+
+            <div className="w-full flex flex-col gap-2">
+                <h1 className="w-full flex justify-center text-4xl font-bold text-slate-700">Configurações do Usuário</h1>
+                <h1 className="w-full flex justify-center text-4xl font-bold text-slate-700">Ambiente Pessoal</h1>
+            </div>
+            <main className="w-full flex flex-col justify-center items-center gap-20 py-4">
+                <div className="flex flex-col justify-between items-center shadow-xl border-t-2 border-x-2 rounded-lg py-4 px-10 gap-4">
+                    <div className="flex justify-center flex-wrap gap-8 md:flex-nowrap">
+
+                        <div className="flex items-center gap-4 py-4">
+                            <img className="min-w-56 h-56 border-2 rounded-full" src="" alt="" />
                         </div>
+                        <div className="w-96 flex flex-col justify-around py-2 gap-4">
+                            <input className="border-b-2 border-slate-600 px-2 outline-none text-black" type="text" placeholder="Nome" />
+                            <input className="border-b-2 border-slate-600 px-2 outline-none text-black" type="text" placeholder="Habilidade Específica ex: 'Desenvolvedor Front-end'" />
+                            <input className="border-b-2 border-slate-600 px-2 outline-none text-black" type="text" placeholder="Habilidades Complementares" />
+                            <input className="border-b-2 border-slate-600 px-2 outline-none text-black" type="text" placeholder="Endereço" />
+                        </div>
+
+                    </div>
+                    <div className="w-full flex justify-center gap-20 px-10">
+                        <button className="w-80 h-10 bg-slate-800 text-white px-2">Editar </button>
                     </div>
                 </div>
-            }
-            styles={{
-                header: 'bg-slate-800 h-36 w-full px-2 py-3',
-                main: 'bg-white text-black w-full py-10 px-0 flex flex-col gap-8',
-                footer: 'bg-slate-800 h-32 w-full'
-            
-            }}>
-     
-            
-        <div className="flex justify-center items-center w-full h-full">
-            <div className='border-4 border-slate-800 w-56 h-56 rounded-full justify-center items-center'></div>
+
+                <div className="w-full flex flex-col gap-8 px-4">
+                    <div className="w-full flex gap-2">
+                        <h1 className="w-full flex justify-center text-4xl font-bold text-slate-700">Serviços Criados</h1>
+                    </div>
+
+                    <div className="w-full flex justify-center p-4">
+                        <button className="text-gray-400 text-xl text-center border-2 p-2 rounded-lg flex justify-end hover:text-slate-700 hover:border-slate-700 transition-all duration-300">Criar Novo Serviço +</button>
+                    </div>
+
+                </div>
+
+                <div className="p-4 rounded-lg flex justify-center flex-wrap gap-4">
+                    <Services title="alguma coisa ai" description="slala" price="R$ 0,00" images="a" onClick={() => { }} location="brazil" textOne="Excluir" textTwo="Editar" />
+                    <Services title="alguma coisa ai" description="slala" price="R$ 0,00" images="a" onClick={() => { }} location="brazil" textOne="Excluir" textTwo="Editar" />
+                    <Services title="alguma coisa ai" description="slala" price="R$ 0,00" images="a" onClick={() => { }} location="brazil" textOne="Excluir" textTwo="Editar" />
+                    <Services title="alguma coisa ai" description="slala" price="R$ 0,00" images="a" onClick={() => { }} location="brazil" textOne="Excluir" textTwo="Editar" />
+                    <Services title="alguma coisa ai" description="slala" price="R$ 0,00" images="a" onClick={() => { }} location="brazil" textOne="Excluir" textTwo="Editar" />
+                    <Services title="alguma coisa ai" description="slala" price="R$ 0,00" images="a" onClick={() => { }} location="brazil" textOne="Excluir" textTwo="Editar" />
+                    <Services title="alguma coisa ai" description="slala" price="R$ 0,00" images="a" onClick={() => { }} location="brazil" textOne="Excluir" textTwo="Editar" />
+                    <Services title="alguma coisa ai" description="slala" price="R$ 0,00" images="a" onClick={() => { }} location="brazil" textOne="Excluir" textTwo="Editar" />
+                    <Services title="alguma coisa ai" description="slala" price="R$ 0,00" images="a" onClick={() => { }} location="brazil" textOne="Excluir" textTwo="Editar" />
+                    <Services title="alguma coisa ai" description="slala" price="R$ 0,00" images="a" onClick={() => { }} location="brazil" textOne="Excluir" textTwo="Editar" />
+                    <Services title="alguma coisa ai" description="slala" price="R$ 0,00" images="a" onClick={() => { }} location="brazil" textOne="Excluir" textTwo="Editar" />
+                    <Services title="alguma coisa ai" description="slala" price="R$ 0,00" images="a" onClick={() => { }} location="brazil" textOne="Excluir" textTwo="Editar" />
+                    <Services title="alguma coisa ai" description="slala" price="R$ 0,00" images="a" onClick={() => { }} location="brazil" textOne="Excluir" textTwo="Editar" />
+                    <Services title="alguma coisa ai" description="slala" price="R$ 0,00" images="a" onClick={() => { }} location="brazil" textOne="Excluir" textTwo="Editar" />
+                    <Services title="alguma coisa ai" description="slala" price="R$ 0,00" images="a" onClick={() => { }} location="brazil" textOne="Excluir" textTwo="Editar" />
+                    <Services title="alguma coisa ai" description="slala" price="R$ 0,00" images="a" onClick={() => { }} location="brazil" textOne="Excluir" textTwo="Editar" />
+                    <Services title="alguma coisa ai" description="slala" price="R$ 0,00" images="a" onClick={() => { }} location="brazil" textOne="Excluir" textTwo="Editar" />
+                    <Services title="alguma coisa ai" description="slala" price="R$ 0,00" images="a" onClick={() => { }} location="brazil" textOne="Excluir" textTwo="Editar" />
+                    <Services title="alguma coisa ai" description="slala" price="R$ 0,00" images="a" onClick={() => { }} location="brazil" textOne="Excluir" textTwo="Editar" />
+                    <Services title="alguma coisa ai" description="slala" price="R$ 0,00" images="a" onClick={() => { }} location="brazil" textOne="Excluir" textTwo="Editar" />
+                    <Services title="alguma coisa ai" description="slala" price="R$ 0,00" images="a" onClick={() => { }} location="brazil" textOne="Excluir" textTwo="Editar" />
+                </div>
+            </main>
         </div>
-
-            <div className="justify-center items-center flex h-full w-full flex-col gap-12">
-                <div className="flex justify-center items-center w-full h-10 p-3">
-                    <Input placeholder='nome:' />
-                </div>
-
-                <div className="flex justify-center items-center w-full h-10 p-3">
-                    <Input placeholder='idade:' />
-                </div>
-
-                <div className="flex justify-center items-center w-full h-10 p-3">
-                    <Input placeholder='Telefone:' />
-                </div>
-
-                <div className="flex justify-center items-center w-full h-10 p-3">
-                    <Input placeholder='Habilidades:' isTextArea={true} />
-                </div>
-
-                <div className="flex justify-center items-center w-full h-10 p-3">
-                    <Input placeholder='Trabalhos criados:' />
-                </div>
-                </div>
-
-    </Scaffold>
-    
-
-
-        // <div>
-        //     <div>Perfil do Usuário ID: {id}</div>
-        //     <div>Nome: {user.name}</div>
-        //     <div>Email: {user.email}</div>
-        //     <div>Role: {user.role}</div>
-        // </div>
-
-               
-
-    );
+    )
 }

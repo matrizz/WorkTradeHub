@@ -28,6 +28,7 @@ model User {
   cpf                  String        @unique
   email                String        @unique
   password             String
+  isAuth               Boolean       @default(false)
   role                 Role
   services             Service[]
   clientTransactions   Transaction[] @relation(name: "ClientTransactions")

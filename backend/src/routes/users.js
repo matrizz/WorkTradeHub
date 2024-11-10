@@ -3,7 +3,7 @@ import User from "../models/User.js";
 import authMiddleware from "../middleware/auth.js";
 import { PrismaClient } from "@prisma/client";
 
-const prisma = new  PrismaClient();
+const prisma = new PrismaClient();
 
 const router = express.Router();
 
@@ -53,9 +53,8 @@ router.delete("/:id", authMiddleware, async (req, res) => {
     });
     await prisma.service.deleteMany({
       where: {
-        providerId:  id,
-
-      }
+        providerId: id,
+      },
     });
     await prisma.notification.deleteMany({
       where: { userId: id },
@@ -63,7 +62,7 @@ router.delete("/:id", authMiddleware, async (req, res) => {
     await prisma.user.delete({ where: { cuid: id } });
     res.status(200).json({ msg: "Usuário excluído com sucesso" });
   } catch (err) {
-    console.log(err)
+    console.log(err);
     res.status(500).json({ msg: "Erro no servidor" });
   }
 });
