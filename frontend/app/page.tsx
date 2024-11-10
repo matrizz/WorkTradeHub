@@ -49,7 +49,7 @@ export default function Page() {
 
   function getUserData() {
     //@ts-ignore
-    const response = fetch(`http://localhost:5000/api/users/${sessionStorage.getItem('cuid')}`, { headers: { "Authorization": session } });
+    const response = fetch(`http://localhost:5000/api/users/${sessionStorage.getItem('cuid')}`, { headers: { "X-Authorization": session } });
     (async () => {
       const user: User = await response.then(res => res.json())
       setCurrentUser(user)
@@ -71,7 +71,7 @@ export default function Page() {
 
   return (
 
-    <div className="mx-auto h-full bg-white flex flex-col gap-10">
+    <div className="mx-auto bg-white flex flex-col gap-20">
       <header className="h-28 flex justify-between items-center bg-slate-700 border-b-2 px-8 py-1">
         <script src="https://unpkg.com/react/umd/react.development.js"></script>
         <script src="https://unpkg.com/react-dom/umd/react-dom.development.js"></script>
@@ -84,12 +84,12 @@ export default function Page() {
         {/* @ts-ignore */}
         <DescProfile currentUser={currentUser} />
       </header>
-      <main className="w-full text-center flex flex-col gap-8 mt-10">
+      <main className="w-full text-center flex flex-col gap-8">
         <div className="w-full flex flex-col gap-2">
           <h1 className="text-4xl font-bold text-slate-700">Book trusted help</h1>
           <h1 className="text-4xl font-bold text-slate-700">for home tasks</h1>
         </div>
-        <div className="w-full flex flex-col gap-8">
+        <div className="w-full flex flex-col gap-20">
           <div className="flex justify-center">
             <input type="text" placeholder="Pesquise um serviço" value={search} onChange={e => setSearch(e.target.value)} className="border text-black rounded-l-full py-2 px-4 w-1/2" />
             <button onClick={handleSearch} className="bg-slate-700 text-white rounded-r-full px-4">
@@ -111,7 +111,7 @@ export default function Page() {
           {
             jobs.length > 0?
               jobs.map((job, i) => {
-                return <Services key={i} title={job.name} images={job.images} description={job.description} price={job.price} location={job.location} onClick={() => { }} />
+                return <Services key={i} title={job.name} images={job.images} description={job.description} price={job.price} location={job.location} onClick={() => { }} primaryText="Conversar" secondaryText="Candidatar-se"/>
               })
               : <div className="text-center text-gray-300 text-xl">Nada por aqui!</div>
           }</div>
