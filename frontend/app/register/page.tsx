@@ -126,7 +126,7 @@ export default function Login() {
                     </button>
                 </form>
                 <div className="mt-4 flex gap-2">
-                    <p>Já possui uma conta?</p><Link href="/register" className="text-normal text-gray-600 hover:text-blue-700">Fazer login</Link>
+                    <p>Já possui uma conta?</p><Link href="/login" className="text-normal text-gray-600 hover:text-blue-700">Fazer login</Link>
                 </div>
             </div>
         </div>
