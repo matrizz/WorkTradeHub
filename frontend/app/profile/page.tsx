@@ -61,27 +61,27 @@ export default function Profile() {
                 </div>
 
                 <div className="p-4 rounded-lg flex justify-center flex-wrap gap-4">
-                    <Services title="alguma coisa ai" description="slala" price="R$ 0,00" images="a" onClick={() => { }} location="brazil" textOne="Excluir" textTwo="Editar"/>
-                    <Services title="alguma coisa ai" description="slala" price="R$ 0,00" images="a" onClick={() => { }} location="brazil" textOne="Excluir" textTwo="Editar"/>
-                    <Services title="alguma coisa ai" description="slala" price="R$ 0,00" images="a" onClick={() => { }} location="brazil" textOne="Excluir" textTwo="Editar"/>
-                    <Services title="alguma coisa ai" description="slala" price="R$ 0,00" images="a" onClick={() => { }} location="brazil" textOne="Excluir" textTwo="Editar"/>
-                    <Services title="alguma coisa ai" description="slala" price="R$ 0,00" images="a" onClick={() => { }} location="brazil" textOne="Excluir" textTwo="Editar"/>
-                    <Services title="alguma coisa ai" description="slala" price="R$ 0,00" images="a" onClick={() => { }} location="brazil" textOne="Excluir" textTwo="Editar"/>
-                    <Services title="alguma coisa ai" description="slala" price="R$ 0,00" images="a" onClick={() => { }} location="brazil" textOne="Excluir" textTwo="Editar"/>
-                    <Services title="alguma coisa ai" description="slala" price="R$ 0,00" images="a" onClick={() => { }} location="brazil" textOne="Excluir" textTwo="Editar"/>
-                    <Services title="alguma coisa ai" description="slala" price="R$ 0,00" images="a" onClick={() => { }} location="brazil" textOne="Excluir" textTwo="Editar"/>
-                    <Services title="alguma coisa ai" description="slala" price="R$ 0,00" images="a" onClick={() => { }} location="brazil" textOne="Excluir" textTwo="Editar"/>
-                    <Services title="alguma coisa ai" description="slala" price="R$ 0,00" images="a" onClick={() => { }} location="brazil" textOne="Excluir" textTwo="Editar"/>
-                    <Services title="alguma coisa ai" description="slala" price="R$ 0,00" images="a" onClick={() => { }} location="brazil" textOne="Excluir" textTwo="Editar"/>
-                    <Services title="alguma coisa ai" description="slala" price="R$ 0,00" images="a" onClick={() => { }} location="brazil" textOne="Excluir" textTwo="Editar"/>
-                    <Services title="alguma coisa ai" description="slala" price="R$ 0,00" images="a" onClick={() => { }} location="brazil" textOne="Excluir" textTwo="Editar"/>
-                    <Services title="alguma coisa ai" description="slala" price="R$ 0,00" images="a" onClick={() => { }} location="brazil" textOne="Excluir" textTwo="Editar"/>
-                    <Services title="alguma coisa ai" description="slala" price="R$ 0,00" images="a" onClick={() => { }} location="brazil" textOne="Excluir" textTwo="Editar"/>
-                    <Services title="alguma coisa ai" description="slala" price="R$ 0,00" images="a" onClick={() => { }} location="brazil" textOne="Excluir" textTwo="Editar"/>
-                    <Services title="alguma coisa ai" description="slala" price="R$ 0,00" images="a" onClick={() => { }} location="brazil" textOne="Excluir" textTwo="Editar"/>
-                    <Services title="alguma coisa ai" description="slala" price="R$ 0,00" images="a" onClick={() => { }} location="brazil" textOne="Excluir" textTwo="Editar"/>
-                    <Services title="alguma coisa ai" description="slala" price="R$ 0,00" images="a" onClick={() => { }} location="brazil" textOne="Excluir" textTwo="Editar"/>
-                    <Services title="alguma coisa ai" description="slala" price="R$ 0,00" images="a" onClick={() => { }} location="brazil" textOne="Excluir" textTwo="Editar"/>
+                    <Services title="alguma coisa ai" description="slala" price="R$ 0,00" images="a" onClick={() => { }} location="brazil" primaryText="Excluir" secondaryText="Editar"/>
+                    <Services title="alguma coisa ai" description="slala" price="R$ 0,00" images="a" onClick={() => { }} location="brazil" primaryText="Excluir" secondaryText="Editar"/>
+                    <Services title="alguma coisa ai" description="slala" price="R$ 0,00" images="a" onClick={() => { }} location="brazil" primaryText="Excluir" secondaryText="Editar"/>
+                    <Services title="alguma coisa ai" description="slala" price="R$ 0,00" images="a" onClick={() => { }} location="brazil" primaryText="Excluir" secondaryText="Editar"/>
+                    <Services title="alguma coisa ai" description="slala" price="R$ 0,00" images="a" onClick={() => { }} location="brazil" primaryText="Excluir" secondaryText="Editar"/>
+                    <Services title="alguma coisa ai" description="slala" price="R$ 0,00" images="a" onClick={() => { }} location="brazil" primaryText="Excluir" secondaryText="Editar"/>
+                    <Services title="alguma coisa ai" description="slala" price="R$ 0,00" images="a" onClick={() => { }} location="brazil" primaryText="Excluir" secondaryText="Editar"/>
+                    <Services title="alguma coisa ai" description="slala" price="R$ 0,00" images="a" onClick={() => { }} location="brazil" primaryText="Excluir" secondaryText="Editar"/>
+                    <Services title="alguma coisa ai" description="slala" price="R$ 0,00" images="a" onClick={() => { }} location="brazil" primaryText="Excluir" secondaryText="Editar"/>
+                    <Services title="alguma coisa ai" description="slala" price="R$ 0,00" images="a" onClick={() => { }} location="brazil" primaryText="Excluir" secondaryText="Editar"/>
+                    <Services title="alguma coisa ai" description="slala" price="R$ 0,00" images="a" onClick={() => { }} location="brazil" primaryText="Excluir" secondaryText="Editar"/>
+                    <Services title="alguma coisa ai" description="slala" price="R$ 0,00" images="a" onClick={() => { }} location="brazil" primaryText="Excluir" secondaryText="Editar"/>
+                    <Services title="alguma coisa ai" description="slala" price="R$ 0,00" images="a" onClick={() => { }} location="brazil" primaryText="Excluir" secondaryText="Editar"/>
+                    <Services title="alguma coisa ai" description="slala" price="R$ 0,00" images="a" onClick={() => { }} location="brazil" primaryText="Excluir" secondaryText="Editar"/>
+                    <Services title="alguma coisa ai" description="slala" price="R$ 0,00" images="a" onClick={() => { }} location="brazil" primaryText="Excluir" secondaryText="Editar"/>
+                    <Services title="alguma coisa ai" description="slala" price="R$ 0,00" images="a" onClick={() => { }} location="brazil" primaryText="Excluir" secondaryText="Editar"/>
+                    <Services title="alguma coisa ai" description="slala" price="R$ 0,00" images="a" onClick={() => { }} location="brazil" primaryText="Excluir" secondaryText="Editar"/>
+                    <Services title="alguma coisa ai" description="slala" price="R$ 0,00" images="a" onClick={() => { }} location="brazil" primaryText="Excluir" secondaryText="Editar"/>
+                    <Services title="alguma coisa ai" description="slala" price="R$ 0,00" images="a" onClick={() => { }} location="brazil" primaryText="Excluir" secondaryText="Editar"/>
+                    <Services title="alguma coisa ai" description="slala" price="R$ 0,00" images="a" onClick={() => { }} location="brazil" primaryText="Excluir" secondaryText="Editar"/>
+                    <Services title="alguma coisa ai" description="slala" price="R$ 0,00" images="a" onClick={() => { }} location="brazil" primaryText="Excluir" secondaryText="Editar"/>
                 </div>
             </main>
         </div>
