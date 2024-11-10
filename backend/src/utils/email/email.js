@@ -15,12 +15,12 @@ class EmailVerification {
     this.codigoGerado = this.getCode();
 
     const transporter = nodemailer.createTransport({
-      host: "smtp.gmail.com",
-      port: 465,
+      host: process.env.SMTP_HOST,
+      port: process.env.SMTP_PORT,
       secure: true,
       auth: {
-        user: "worktradehub@gmail.com",
-        pass: "fabx raph icce zgnv",
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASSWORD,
       },
     });
 
