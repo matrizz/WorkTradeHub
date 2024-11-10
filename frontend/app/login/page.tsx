@@ -64,7 +64,7 @@ export default function Login() {
                         Entrar
                     </button>
                 </form>
-                <div className="mt-4 flex">
+                <div className="mt-4 flex gap-2">
                     <p>Ainda não possui uma conta?</p><Link href="/register" className="text-normal text-gray-600 hover:text-blue-700">Crie uma!</Link>
                 </div>
             </div>
