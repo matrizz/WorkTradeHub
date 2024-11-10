@@ -49,7 +49,7 @@ export default function Page() {
 
   function getUserData() {
     //@ts-ignore
-    const response = fetch(`http://localhost:5000/api/users/${sessionStorage.getItem('cuid')}`, { headers: { "X-Authorization": session } });
+    const response = fetch(`http://localhost:5000/api/users/${sessionStorage.getItem('cuid')}`, { headers: { "X-Authorization": sessionStorage.getItem('tk') } });
     (async () => {
       const user: User = await response.then(res => res.json())
       setCurrentUser(user)
@@ -63,7 +63,7 @@ export default function Page() {
       const formattedSearch = new URLSearchParams({ name: search }).toString()
       console.log(formattedSearch)
       //@ts-ignore
-      const filteredJobs = await fetch(`http://localhost:5000/api/services/search?${formattedSearch}`, { headers: { "Authorization": session } })
+      const filteredJobs = await fetch(`http://localhost:5000/api/services/search?${formattedSearch}`, { headers: { "X-Authorization": sessionStorage.getItem('tk') } })
       setJobs(await filteredJobs.json())
     }
 
