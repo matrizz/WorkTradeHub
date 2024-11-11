@@ -35,6 +35,7 @@ router.get("/account-activation", async (req, res) => {
   const params = new URLSearchParams(req.url.split("?")[1]);
   const cuid = params.get("cuid");
   if (!cuid) return res.status(400).json({ msg: "ID não especificado"})
+  if (!code) return res.status(400).json({ msg: "Código não fornecido"})
 
   try {
     emailVerification.verifyCode(code);
