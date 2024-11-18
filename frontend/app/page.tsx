@@ -27,6 +27,10 @@ interface User {
 }
 
 export default function Page() {
+
+  if (!sessionStorage.getItem('tk')) redirect()
+  if (!sessionStorage.getItem('cuid')) redirect()
+
   const router = useRouter()
   const [jobs, setJobs] = useState<any[]>([])
   const [session, setSession] = useState<string | null>()
@@ -40,13 +44,9 @@ export default function Page() {
     return router.push('/login')
   }
 
-  if (!sessionStorage.getItem('tk')) redirect()
-  if (!sessionStorage.getItem('cuid')) redirect()
   useEffect(() => {
-
     setSession(sessionStorage.getItem('tk'))
     setIsLoading(false)
-
   }, [])
 
   useEffect(() => {
@@ -55,9 +55,7 @@ export default function Page() {
   }, [])
 
   async function getJobs() {
-    const response = await fetch(`/api/auth/services`, {
-      headers: { 'X-Authorization': `${sessionStorage.getItem('tk')}` }
-    })
+    const response = await fetch(`/api/auth/services`, { headers: { 'X-Authorization': `${sessionStorage.getItem('tk')}` } })
     const { data } = await response.json()
     console.log(data)
     setJobs(data)
@@ -66,12 +64,7 @@ export default function Page() {
   async function getUserData() {
     //@ts-ignore
     const response = await fetch(
-      `/api/auth/user/${sessionStorage.getItem('cuid')}`,
-      {
-        headers: {
-          'X-Authorization': `${sessionStorage.getItem('tk')}`
-        }
-      }
+      `/api/auth/user/${sessionStorage.getItem('cuid')}`, { headers: { 'X-Authorization': `${sessionStorage.getItem('tk')}` } }
     )
 
     const user: User = await response.json()
@@ -81,15 +74,10 @@ export default function Page() {
 
   async function handleSearch() {
     if (search !== '') {
-      const formattedSearch = new URLSearchParams({
-        search: search.toLowerCase()
-      }).toString()
+      const formattedSearch = new URLSearchParams({ search: search.toLowerCase() }).toString()
       console.log(formattedSearch)
       //@ts-ignore
-      const filteredJobs = await fetch(
-        `/api/auth/services?${formattedSearch}`,
-        { headers: { 'X-Authorization': sessionStorage.getItem('tk') } }
-      )
+      const filteredJobs = await fetch(`/api/auth/services?${formattedSearch}`, { headers: { 'X-Authorization': sessionStorage.getItem('tk') } })
       const { data } = await filteredJobs.json()
       setJobs(data)
     }
