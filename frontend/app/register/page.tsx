@@ -31,7 +31,6 @@ export default function Login() {
         event.preventDefault()
 
         console.log('Submitting...')
-        console.log(name, email, password)
         let headersList = {
             "Accept": "*/*",
             "Content-Type": "application/json"
@@ -46,7 +45,7 @@ export default function Login() {
         }
         );
 
-        let response = await fetch("http://localhost:5000/api/auth/register", {
+        let response = await fetch("/api/auth/register", {
             method: "POST",
             body: bodyContent,
             headers: headersList
@@ -65,13 +64,11 @@ export default function Login() {
     useEffect(() => {
         if (password != '' && password.length < 8 || password.length > 20) {
             SET_ERR({ msg: MESSAGES['MIN'] })
-            console.log(ERR_CONFIRM_PASS, ERR)
         } else SET_ERR(undefined)
 
         if (passwordConfirm !== '' && passwordConfirm !== password) {
             SET_ERR_CONFIRM_PASS(true)
             SET_ERR({ msg: MESSAGES['DIFF'] })
-            console.log(ERR_CONFIRM_PASS, ERR)
         } else SET_ERR_CONFIRM_PASS(false)
 
     }, [password, passwordConfirm])

@@ -17,7 +17,7 @@ export default function Notification() {
             }
             styles={{
                 header: 'bg-slate-800 h-36 w-full px-2 py-3',
-                main: 'bg-white text-black w-full py-10 px-0 flex flex-col gap-8',
+                main: 'bg-white text-black w-full py-10 px-0 flex flex-col',
                 footer: 'bg-slate-800 h-32 w-full'
 
             }}>

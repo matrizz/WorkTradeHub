@@ -1,0 +1,78 @@
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Transaction {
+  id         Int      @id @default(autoincrement())
+  clientId   String
+  providerId String
+  serviceId  String
+  amount     Float
+  status     String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  client   User    @relation(name: "ClientTransactions", fields: [clientId], references: [cuid])
+  provider User    @relation(name: "ProviderTransactions", fields: [providerId], references: [cuid])
+  service  Service @relation(fields: [serviceId], references: [id])
+}
+
+model User {
+  cuid                 String        @id @default(cuid())
+  name                 String
+  cpf                  String        @unique
+  email                String        @unique
+  password             String
+  isAuth               Boolean       @default(false)
+  social               String?
+  avatar_url           String?
+  site_link            String?
+  location             Json @default("{}")
+  role                 Role
+  services             Service[]
+  clientTransactions   Transaction[] @relation(name: "ClientTransactions")
+  providerTransactions Transaction[] @relation(name: "ProviderTransactions")
+
+  Notification Notification[]
+}
+
+model Service {
+  id          String    @id @default(cuid())
+  providerId  String
+  description String
+  price       Float
+  category    String?
+  status      Status
+  images      String? @db.Text
+  location    Json
+  createdAt   DateTime @default(now())
+  user        User   @relation(fields: [providerId], references: [cuid])
+
+  Transaction Transaction[]
+}
+
+model Notification {
+  id        Int      @id @default(autoincrement())
+  userId    String
+  message   String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [cuid])
+}
+
+enum Role {
+  user
+  admin
+}
+
+enum Status {
+  pending
+  inProgress
+  completed
+}

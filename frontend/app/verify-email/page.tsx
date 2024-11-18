@@ -1,48 +1,101 @@
 'use client'
-import { useRouter } from "next/navigation"
-import { useState } from "react"
+
+import { useState, useRef, ChangeEvent, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import Loading from "../loading";
 
 export default function VerifyEmail() {
 
     const router = useRouter()
-    const [code, setCode] = useState<string>('')
-    function handleCodeLength(value: string) {
+    const inputRefs = useRef<HTMLInputElement[]>([]);
+    const [isValid, setIsValid] = useState(false)
+    const [validating, setValidating] = useState(true)
 
-        if (value.length > 6) {
-            return setCode(value.slice(0, 6))
-        } 
-        setCode(value)
+    useEffect(() => {
 
-    }
-    async function handleSubmit() {
-        const cuid = sessionStorage.getItem('cuid')
-        
-        if (!cuid) {
-            return alert('ID não especificado')
+        if (!sessionStorage.getItem('cuid')) return router.push('/login');
+
+        (async () => {
+
+            const response = await fetch(`/api/auth/user/${sessionStorage.getItem('cuid')}`, { headers: { "X-Authorization": `${sessionStorage.getItem('tk')}` } });
+            const user = await response.json()
+            
+            if (user.isAuth) router.push('/')
+            else setValidating(false)
+        })()
+    }, []);
+
+    const handleCodeLength = (e: ChangeEvent<HTMLInputElement>, index: number) => {
+        const value = e.target.value;
+
+        // Permitir apenas um número
+        if (!/^\d$/.test(value)) return;
+
+        // Move para o próximo input se o valor for válido
+        if (index < inputRefs.current.length - 1) {
+            inputRefs.current[index + 1].focus();
         }
-        const res = await fetch(`http://localhost:5000/api/auth/account-activation?cuid=${cuid}`, {
+    };
+
+    async function handleSubmit() {
+        const code = inputRefs.current.map((input) => input?.value || "").join(",").replaceAll(",", "");
+
+        const res = await fetch(`/api/auth/account-activation?u=${sessionStorage.getItem('cuid')}`, {
             method: 'GET',
             headers: {
-                'X-Code-Verification': code
+                'X-Code-Verification': `${code}`
             }
 
         })
+        const response = await res.json()
+
         if (res.ok) {
-            const response = await res.json()
-            router.push('/')
+            setIsValid(true)
+            setTimeout(() => {
+                router.push('/register/info')
+            }, 1000)
+        } else {
+            alert(JSON.stringify(response.msg))
         }
     }
 
-    return (
-        <div className="flex flex-col ">
-            <div>Verifique seu e-mail</div>
-            <p>Digite o código de verificação enviado para o seu e-mail </p>
-            <div className="border bg-white rounded max-w-60">
-                <label className="text-gray-600 font-semibold pl-2 pr-1 border-r-2" htmlFor="code">C -</label>
-                <input maxLength={6} className="outline-none max-w-48 text-gray-500 px-2" onChange={(e) => handleCodeLength(e.target.value)} type="text" id="code" name="code" value={code} />
-            </div>
-            <button onClick={handleSubmit}>Confirmar código</button>
-        </div>
+    if (validating) return <Loading />
 
-    )
+
+    return (
+        <div className="bg-slate-700 flex items-center justify-center min-h-screen">
+            <div className="bg-white p-6 shadow-xl shadow-gray-700 rounded-lg w-96">
+                <div className="flex items-center justify-center mb-4">
+                    <i className={`fas fa-check-circle text-xl text-start ${isValid ? "text-green-500" : "text-gray-500"}`}></i>
+                    <h2 className="ml-4 text-xl font-semibold text-slate-700">
+                        Confirme seu e-mail
+                    </h2>
+                </div>
+                <p className="text-gray-600 mb-6 text-justify">
+                    Para garantir a segurança da sua conta, enviamos um código de verificação para o seu e-mail. Por favor, acesse a mensagem que enviamos e insira o código nos campos abaixo para concluir o processo de verificação.
+                </p>
+                <div className="flex justify-between text-slate-700 mb-4">
+                    {Array.from({ length: 6 }).map((_, index) => (
+                        <input
+                            key={index}
+                            type="text"
+                            maxLength={1}
+                            ref={(el) => {
+                                if (el) inputRefs.current[index] = el;
+                            }}
+
+                            onChange={(e) => handleCodeLength(e, index)}
+                            className="w-12 h-12 border border-gray-300 rounded-lg text-center flex items-center justify-center text-xl font-semibold"
+                        />
+                    ))}
+                </div>
+                <div className="flex items-center justify-between text-gray-500 text-sm">
+                    <span>
+                        O código expira em 5 minutos
+                    </span>
+                </div>
+                <button onClick={handleSubmit} className="w-full bg-slate-700 text-white py-2 rounded-lg mt-6">Confirmar</button>
+                <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+            </div>
+        </div>)
 }

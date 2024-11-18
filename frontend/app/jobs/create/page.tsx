@@ -14,7 +14,13 @@ export default function Profile() {
 
     useEffect(() => {
         const fetchUserData = async () => {
-            const response = await fetch('http://localhost:5000/api/users/6');
+            const response = await fetch(`/api/auth/user/${sessionStorage.getItem('cuid')}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Authorization': `${sessionStorage.getItem('tk')}`
+                }
+            });
             const data = await response.json();
             setUserData(data);
             setFormData({
@@ -36,10 +42,11 @@ export default function Profile() {
 
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
-        const response = await fetch('http://localhost:5000/api/users/6', {
+        const response = await fetch(`/api/auth/user/${sessionStorage.getItem('cuid')}`, {
             method: 'PUT',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'X-Authentication': `${sessionStorage.getItem('tk')}`
             },
             body: JSON.stringify(formData)
         });

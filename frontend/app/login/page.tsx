@@ -27,7 +27,7 @@ export default function Login() {
         }
         )
 
-        let response = await fetch("http://localhost:5000/api/auth/login", {
+        let response = await fetch("/api/auth/login", {
             method: "POST",
             body: bodyContent,
             headers: headersList
