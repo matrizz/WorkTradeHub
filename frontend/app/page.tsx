@@ -28,8 +28,7 @@ interface User {
 
 export default function Page() {
 
-  if (!sessionStorage.getItem('tk')) redirect()
-  if (!sessionStorage.getItem('cuid')) redirect()
+
 
   const router = useRouter()
   const [jobs, setJobs] = useState<any[]>([])
@@ -45,7 +44,9 @@ export default function Page() {
   }
 
   useEffect(() => {
-    setSession(sessionStorage.getItem('tk'))
+    if (!sessionStorage.getItem('tk')) redirect()
+    else if (!sessionStorage.getItem('cuid')) redirect()
+    else setSession(sessionStorage.getItem('tk'))
     setIsLoading(false)
   }, [])
 
