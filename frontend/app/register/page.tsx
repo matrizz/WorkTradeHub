@@ -58,7 +58,8 @@ export default function Login() {
 
         sessionStorage.setItem('tk', JSON.parse(data).token)
         sessionStorage.setItem('cuid', JSON.parse(data).cuid)
-        router.push('/verify-email')
+        // router.push('/verify-email')
+        router.push('/register/info')
     };
 
     useEffect(() => {
