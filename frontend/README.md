@@ -1,4 +1,6 @@
-# No terminal, nevegue até a pasta onde deseja instalar o projeto e execute os seguintes comandos
+# WorkTradeHub
+
+## No terminal, nevegue até a pasta onde deseja instalar o projeto e execute os seguintes comandos
 
 ```bash
 
@@ -77,3 +79,5 @@ npm run docs
 ```
 
 Isso vai abrir a documentação da API no navegador.
+
+@matrizz
