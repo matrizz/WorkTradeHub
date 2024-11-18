@@ -59,6 +59,9 @@ export default function Page() {
     const response = await fetch(`/api/auth/services`, { headers: { 'X-Authorization': `${sessionStorage.getItem('tk')}` } })
     const { data } = await response.json()
     console.log(data)
+    if (response.status === 404 || response.status === 401) {
+      return redirect()
+    }
     setJobs(data)
   }
 
@@ -66,7 +69,7 @@ export default function Page() {
     //@ts-ignore
     const response = await fetch(`/api/auth/user/${sessionStorage.getItem('cuid')}`, { headers: { 'X-Authorization': `${sessionStorage.getItem('tk')}` } })
 
-    if (response.status === 404) {
+    if (response.status === 404 || response.status === 401) {
       return redirect()
     }
     const user: User = await response.json()
