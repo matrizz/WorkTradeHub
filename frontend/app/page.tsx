@@ -63,10 +63,11 @@ export default function Page() {
 
   async function getUserData() {
     //@ts-ignore
-    const response = await fetch(
-      `/api/auth/user/${sessionStorage.getItem('cuid')}`, { headers: { 'X-Authorization': `${sessionStorage.getItem('tk')}` } }
-    )
+    const response = await fetch(`/api/auth/user/${sessionStorage.getItem('cuid')}`, { headers: { 'X-Authorization': `${sessionStorage.getItem('tk')}` } })
 
+    if (response.status === 404) {
+      return redirect()
+    }
     const user: User = await response.json()
     console.log(user)
     setCurrentUser(user.data)
