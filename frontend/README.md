@@ -1,36 +1,79 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
-
-## Getting Started
-
-First, run the development server:
+# No terminal, nevegue até a pasta onde deseja instalar o projeto e execute os seguintes comandos
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
+git clone https://github.com/matrizz/worktradehub.git
+
+cd worktradehub/frontend
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Configurar Variables de Ambiente
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Para configurar as variáveis de ambiente, renomeie o arquivo `.env.template` para `.env` e substitua as variáveis de ambiente com suas credenciais. Por exemplo:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- No template `.env.template`
 
-## Learn More
+```env
+DATABASE_URL="mysql://user:password@localhost:port/dbname"
+```
 
-To learn more about Next.js, take a look at the following resources:
+- No arquivo `.env`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```env
+DATABASE_URL="mysql://matrizz:senha1234@localhost:3306/worktradehub"
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Faça o mesmo com as outras variáveis de ambiente
 
-## Deploy on Vercel
+## Instalando as dependências do projeto
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+npm install
+
+// Isso vai instalar todas as dependências necessárias para o projeto.
+```
+
+## Configurar o banco de dados
+
+Para configurar o banco de dados, execute o seguinte comando:
+
+```bash
+
+npx prisma migrate dev --name "first migration"
+```
+
+Isso vai criar as tabelas no banco de dados.
+
+## Gerar um client prisma
+
+Para gerar um client prisma, execute o seguinte comando:
+
+```bash
+
+npx prisma generate
+```
+
+Isso vai gerar um client prisma que pode ser usado para interagir com o banco de dados.
+
+## Iniciar o projeto
+
+Para iniciar o projeto, execute o seguinte comando:
+
+```bash
+
+npm run dev
+```
+
+Isso vai iniciar o projeto em modo de desenvolvimento.
+
+## Documentação da API
+
+Para acessar a documentação da API, execute o seguinte comando:
+
+```bash
+
+npm run docs
+```
+
+Isso vai abrir a documentação da API no navegador.
