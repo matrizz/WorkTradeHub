@@ -45,21 +45,30 @@ class EmailVerification {
 	 */
 	sendEmailVerification({ dest, cuid, username }: EmailVerificationOptions) {
 		this.codigoGerado = this.getCode()
-		;(async () => {
-			await redis.setex(`tempCode:${cuid}`, 300, this.codigoGerado)
+			; (async () => {
+				await redis.setex(`tempCode:${cuid}`, 300, this.codigoGerado)
 
-			const transporter = nodemailer.createTransport(this.config)
-			
+				const transporter = nodemailer.createTransport(this.config)
 
-			const mailOptions = {
-				from: 'Equipe Work Trade Hub <worktradehub@gmail.com>',
-				to: `${dest}`,
-				subject: `Verificação e ativação da conta`,
-				text: EmailContent`${username}${this.codigoGerado}`
-			}
 
-			transporter.sendMail(mailOptions, console.log)
-		})()
+				const mailOptions = {
+					from: 'Equipe Work Trade Hub <worktradehub@gmail.com>',
+					to: `${dest}`,
+					subject: `Verificação e ativação da conta`,
+					text: EmailContent`${username}${this.codigoGerado}`
+				}
+
+				transporter.sendMail({
+					host: process.env.SMTP_HOST,
+					port: process.env.SMTP_PORT,
+					secure: true,
+					auth: {
+						user: process.env.SMTP_USER,
+						pass: process.env.SMTP_PASSWORD
+					}
+				}, console.log)
+
+			})()
 	}
 
 	/**
@@ -81,7 +90,7 @@ class EmailVerification {
 					console.log('Código expirado ou inválido')
 					return false
 				}
-			} catch (err) {}
+			} catch (err) { }
 		})()
 	}
 
