@@ -4,7 +4,22 @@ import bcrypt from "bcrypt";
 import { SignJWT } from "jose";
 import { emailVerificationInstance as emailVerification } from "../../../utils/email";
 
-export async function POST(req: NextRequest) {
+/**
+ * @description Registra um novo usuário e envia uma verificação por email.
+ * @param {NextRequest} req - O objeto de requisição contendo os dados do usuário.
+ * @returns {NextResponse} O objeto de resposta com o status de registro e os dados do usuário.
+ * @throws {Error} Se houver um erro durante o processo de registro.
+ *
+ * Esta função realiza os seguintes passos:
+ * 1. Analisa o corpo da requisição para extrair os detalhes do usuário.
+ * 2. Verifica se um usuário com o email fornecido já existe.
+ * 3. Faz o hash da senha do usuário e cria um novo usuário no banco de dados.
+ * 4. Envia uma verificação por email para o endereço de email do usuário.
+ * 5. Gera um token JWT para o usuário recém-criado.
+ * 6. Retorna uma resposta com o status de registro e os dados do usuário, ou uma mensagem de erro.
+ */
+
+export async function POST(req: NextRequest): Promise<NextResponse<unknown>> {
   try {
     const { password, id, name, email, ...rest } = await req.json();
     const foundedUser = await User.findUnique({
