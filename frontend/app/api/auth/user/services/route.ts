@@ -1,4 +1,4 @@
-import { Service } from "@/app/api/models";
+import { Service } from "../../../models";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
@@ -6,7 +6,7 @@ export async function GET(req: NextRequest) {
   const offset = url.searchParams.get("offset") || 0;
   const limit = url.searchParams.get("limit") || 10;
   const userId = url.searchParams.get("u");
-  
+
   if (!userId) {
     return NextResponse.json(
       { success: false, msg: "ID do usuário não fornecido" },

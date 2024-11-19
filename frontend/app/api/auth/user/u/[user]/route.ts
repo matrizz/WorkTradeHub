@@ -1,16 +1,15 @@
-import { User } from "@/app/api/models";
-import { extractUserNameFromURL } from "@/app/utils/user";
+import { User } from "../../../../models";
+import { extractUserNameFromURL } from "../../../../../utils/user";
 import { NextRequest, NextResponse } from "next/server";
-
 
 export async function GET(req: NextRequest) {
   const name = extractUserNameFromURL(req.url).replaceAll("%20", " ");
-  console.log(name)
+  console.log(name);
 
   try {
     const user = await User.findFirst({
       where: { name },
-    })
+    });
     if (!user)
       return NextResponse.json(
         { success: false, msg: "Usuário não encontrado" },
@@ -25,5 +24,4 @@ export async function GET(req: NextRequest) {
       { status: 500 }
     );
   }
-
 }

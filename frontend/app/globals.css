@@ -3,23 +3,38 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+	--background: #ffffff;
+	--foreground: #171717;
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+	:root {
+		--background: #0a0a0a;
+		--foreground: #ededed;
+	}
 }
 
-input[type="number"]::-webkit-inner-spin-button {
-  -webkit-appearance: none;
+input[type='number']::-webkit-inner-spin-button {
+	-webkit-appearance: none;
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+	
+	color: var(--foreground);
+	background: var(--background);
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+
+.scroll-bar::-webkit-scrollbar {
+  width: 6px;               /* width of the entire scrollbar */
+}
+
+.scroll-bar::-webkit-scrollbar-track {
+  background: transparent;     
+}
+
+.scroll-bar::-webkit-scrollbar-thumb {
+  background-color: #334155;    
+  border-radius: 20px; 
 }

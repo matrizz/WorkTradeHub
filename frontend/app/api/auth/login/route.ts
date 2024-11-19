@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcrypt";
 import { User } from "../../models";
 
-export async function POST(req: NextRequest) {
+export async function POST(req: NextRequest): Promise<NextResponse> {
   const { email, password } = await req.json();
 
   if (!email || !password) {
@@ -39,7 +39,10 @@ export async function POST(req: NextRequest) {
       .setExpirationTime("2h")
       .sign(secret);
 
-    return NextResponse.json({ success: true, token, cuid: user.cuid }, { status: 200 });
+    return NextResponse.json(
+      { success: true, token, cuid: user.cuid },
+      { status: 200 }
+    );
   } catch (err) {
     console.log(err);
     return NextResponse.json(

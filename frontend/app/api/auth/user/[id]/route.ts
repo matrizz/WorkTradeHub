@@ -1,7 +1,7 @@
-import { User } from "@/app/api/models";
-import { extractUserIDFromURL } from "@/app/utils/user";
+import { User } from "../../../models";
+import { extractUserIDFromURL } from "../../../../utils/user";
 import { NextRequest, NextResponse } from "next/server";
-import bcrypt from 'bcrypt'
+import bcrypt from "bcrypt";
 
 export async function GET(req: NextRequest) {
   const id = extractUserIDFromURL(req.url);
@@ -24,9 +24,8 @@ export async function GET(req: NextRequest) {
       { status: 500 }
     );
   }
-
 }
- 
+
 export async function DELETE(req: NextRequest) {
   const id = extractUserIDFromURL(req.url);
   try {
@@ -43,28 +42,30 @@ export async function DELETE(req: NextRequest) {
 }
 
 export async function PUT(req: NextRequest) {
+  const id = extractUserIDFromURL(req.url);
 
-    const id = extractUserIDFromURL(req.url)
+  const { name, email, password, role } = await req.json();
 
-    const { name, email, password, role } = await req.json();
-
-    try {
-      let updateData = { name, email, role };
-      if (password) {
-        const hashedPassword = await bcrypt.hash(password, 10);
-        //@ts-ignore
-        updateData.password = hashedPassword;
-      }
-      const user = await User.update({
-        where: { cuid: id },
-        data: updateData,
-      });
-
-      const { password: pass, ...rest } = user;
-
-      return NextResponse.json({ success: true, data: rest }, { status: 200 })
-    } catch (err) {
-      console.log(err);
-      return NextResponse.json({ success: false, msg: "Erro no servidor" }, { status: 500 });
+  try {
+    let updateData = { name, email, role };
+    if (password) {
+      const hashedPassword = await bcrypt.hash(password, 10);
+      //@ts-ignore
+      updateData.password = hashedPassword;
     }
+    const user = await User.update({
+      where: { cuid: id },
+      data: updateData,
+    });
+
+    const { password: pass, ...rest } = user;
+
+    return NextResponse.json({ success: true, data: rest }, { status: 200 });
+  } catch (err) {
+    console.log(err);
+    return NextResponse.json(
+      { success: false, msg: "Erro no servidor" },
+      { status: 500 }
+    );
+  }
 }

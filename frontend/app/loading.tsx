@@ -1,21 +1,18 @@
 'use client'
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react'
 
 export default function Loading() {
-    
-    const [textLoading, setTextLoading] = useState('')
+	const [textLoading, setTextLoading] = useState('')
 
-    useEffect(() => {
-        setTimeout(() => {
-            setTextLoading(
-                'carregando'
-            );
-        }, 3000);
-    }, [])
+	useEffect(() => {
+		setTimeout(() => {
+			setTextLoading('carregando')
+		}, 3000)
+	}, [])
 
-    return (
-        <div>
-            <h2>{textLoading}</h2>
-        </div>
-    )
+	return (
+		<div>
+			<h2>{textLoading}</h2>
+		</div>
+	)
 }

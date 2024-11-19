@@ -1,9 +1,9 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
-  async rewrites() {
-    return [{ source: "/api/auth/:path*", destination: "/api/auth/:path*" }];
-  },
-};
+	async rewrites() {
+		return [{ source: '/api/auth/:path*', destination: '/api/auth/:path*' }]
+	}
+}
 
-export default nextConfig;
+export default nextConfig

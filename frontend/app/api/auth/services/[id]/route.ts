@@ -1,10 +1,24 @@
-import { Service } from "@/app/api/models";
-import { PrismaClient } from "@prisma/client";
+import { Service } from "../../../models";
+import { PrismaClient } from "prisma/prisma-client";
 import { NextRequest, NextResponse } from "next/server.js";
 
 const prisma = new PrismaClient();
 
-export async function POST(req: NextRequest) {
+/**
+ * Lida com a criação de um novo serviço.
+ *
+ * Esta função espera uma requisição POST contendo os detalhes do serviço em formato JSON.
+ * Ela extrai a localização do corpo da requisição, junto com outros detalhes,
+ * e cria uma nova entrada de serviço no banco de dados com o status padrão de "pendente".
+ * Uma imagem padrão também é atribuída ao serviço.
+ *
+ * @param {NextRequest} req - O objeto de requisição recebida contendo os dados do serviço.
+ * @returns {Promise<NextResponse>} Um objeto de resposta indicando sucesso ou falha.
+ *
+ * @throws Retornará uma resposta com status 500 se houver um erro durante a criação do serviço.
+ */
+
+export async function POST(req: NextRequest): Promise<NextResponse> {
   const { location, ...rest } = await req.json();
 
   try {
