@@ -42,10 +42,19 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
   }
 }
 export async function GET(req: NextRequest) {
+
+  const id = req.url.split("/")[req.url.split("/").length - 1];
+  console.log("URL:",req.url)
   try {
-    const services = await Service.findMany();
+    const service = await Service.findFirst({
+      where: {
+        id
+      }
+    });
+    console.log(service)
+
     return NextResponse.json(
-      { success: true, data: services },
+      { success: true, data: service },
       { status: 200 }
     );
   } catch (err) {
@@ -58,11 +67,12 @@ export async function GET(req: NextRequest) {
 
 export async function PUT(req: NextRequest) {
   const id = req.url.split("/")[req.url.split("/").length - 1];
+  console.log('fui acessado')
   const { ...rest } = await req.json();
 
   try {
     const service = await Service.update({
-      where: { id: id },
+      where: { id },
       data: { ...rest },
     });
     return NextResponse.json({ success: true, data: service }, { status: 200 });
@@ -80,6 +90,9 @@ export async function DELETE(req: NextRequest) {
 
   try {
     await prisma.transaction.deleteMany({
+      where: { serviceId: id },
+    });
+    await prisma.candidate.deleteMany({
       where: { serviceId: id },
     });
     await prisma.service.delete({ where: { id } });

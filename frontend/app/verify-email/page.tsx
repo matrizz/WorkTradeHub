@@ -2,7 +2,7 @@
 
 import { useState, useRef, ChangeEvent, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import Loading from "../loading";
+import Loading from "../components/loading";
 
 export default function VerifyEmail() {
 	const router = useRouter();

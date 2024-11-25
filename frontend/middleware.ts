@@ -25,18 +25,16 @@ export async function middleware(
 	]
 
 	if (skipPaths.includes(path)) {
-		console.log('ata', request.nextUrl)
 		return NextResponse.next()
 	}
-	if (path.includes('/api/auth/user/u/')) return NextResponse.next()
 
-	console.log(token)
+	if (path.includes('/api/auth/user/u/')) return NextResponse.next()
+	if (path.includes('/api/auth/user/services?')) return NextResponse.next()
+
 	if (!token) {
 		return NextResponse.json(
 			{ success: false, msg: 'Acesso negado, token não fornecido' },
-			{
-				status: 401
-			}
+			{ status: 401 }
 		)
 	}
 
@@ -44,10 +42,7 @@ export async function middleware(
 		const decoded = await JWTVerify(token)
 		if (!decoded)
 			return NextResponse.json(
-				{
-					success: false,
-					msg: 'Acesso negado, token expirado ou inválido'
-				},
+				{ success: false, msg: 'Acesso negado, token expirado ou inválido' },
 				{ status: 401 }
 			)
 	} catch (err) {

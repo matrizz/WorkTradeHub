@@ -1,3 +1,4 @@
+import { User } from "../../models";
 import { emailVerificationInstance } from "../../../utils/email";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -40,6 +41,17 @@ export async function GET(req: NextRequest) {
 
   if (isValid) {
     console.log(isValid);
+
+    try {
+      await User.update({ where: { cuid }, data: { isAuth: true } });
+    } catch (err) {
+      console.error(err);
+      return NextResponse.json(
+        { success: false, msg: "Erro ao ativar conta" },
+        { status: 500 }
+      );
+    }
+
     return NextResponse.json(
       { success: true, msg: "Conta ativada com sucesso" },
       { status: 200 }

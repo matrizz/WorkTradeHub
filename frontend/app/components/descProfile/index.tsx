@@ -1,6 +1,8 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import PersonIcon from '@mui/icons-material/Person';
+import LogoutIcon from '@mui/icons-material/Logout';
 
 interface DescProfileProps {
 	currentUser: {
@@ -20,31 +22,30 @@ export default function DescProfile({ currentUser }: DescProfileProps) {
 		<div className="h-full flex items-center gap-2 p-1 transition-all duration-300">
 			<div className="hidden sm:block">
 				<p className="font-bold text-md md:text-xl">
-					{String(currentUser?.name).split(' ').slice(0, 2).join(' ')}
+					Olá, {String(currentUser?.name).split(' ').slice(0, 2).join(' ')}
 				</p>
-				<p className="text-xs md:text-md">{currentUser?.email}</p>
 			</div>
-			<div className="w-16 h-16 md:w-24 md:h-24 rounded-full p-2">
-				<a
+			<div className="w-16 h-16 flex items-center justify-center md:w-24 md:h-24 rounded-full p-2">
+				<a  className='flex flex-col items-center justify-center text-xs'
 					href={`/profile/${sessionstorage && sessionstorage.getItem('cuid')}`}>
-					<img
-						className="w-full h-full rounded-full"
-						src={
-							currentUser?.photoUrl ||
-							'https://cdn-icons-png.flaticon.com/512/11476/11476369.png'
-						}
-						alt="null"
-					/>
+					<PersonIcon className='w-6 h-6' />
+					perfil
 				</a>
 			</div>
 			<button
-				className="font-bold"
+				className="font-bold text-xs"
 				onClick={() =>
 					confirm('Deseja sair?')
-						? sessionstorage && sessionstorage.clear()
+						? (() => {
+							sessionstorage && sessionstorage.clear()
+							window.location.reload()
+						})()
 						: null
 				}>
-				Sair
+				<span className='flex flex-col px-1 items-center justify-center text-left'>
+					<LogoutIcon className='size-6' />
+					Sair
+				</span>
 			</button>
 		</div>
 	)

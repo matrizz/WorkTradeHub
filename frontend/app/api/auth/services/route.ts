@@ -25,7 +25,7 @@ import { Service } from "../../models";
  * GET /api/auth/services?offset=50&limit=50
  * Retorna uma lista com 50 serviços sem filtro algum, pulando 50 resultados.
  */
-export async function GET(req: NextRequest) {
+export async function GET(req: NextRequest): Promise<NextResponse> {
   const url = new URL(req.url);
   const query = url.searchParams.get("search");
   const offset = url.searchParams.get("offset") || 0;
@@ -86,4 +86,40 @@ export async function GET(req: NextRequest) {
       );
     }
   }
+}
+
+export async function POST(req: NextRequest): Promise<NextResponse> {
+  const { location, ...rest } = await req.json();
+  const id = req.url.split('/')[req.url.split('/').length - 1];
+  
+  const service = await Service.findUnique({ where: { id } });
+  if (!service) {
+    return NextResponse.json(
+      { success: false, msg: "Serviço não encontrado" },
+      { status: 404 }
+    );
+  }
+  if (service.status === "completed") {
+    return NextResponse.json(
+      { success: false, msg: "Serviço já foi concluído" },
+      { status: 400 }
+    );
+  }
+  try {
+    await Service.update({
+      where: { id },
+      data: { location, ...rest }
+    });
+    return NextResponse.json(
+      { success: true, msg: "Serviço atualizado" },
+      { status: 200 }
+    );
+  } catch (err) {
+    console.log(err);
+    return NextResponse.json(
+      { success: false, msg: "Erro no servidor" },
+      { status: 500 }
+    );
+  }
+
 }

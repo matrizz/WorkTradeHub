@@ -6,7 +6,6 @@
 		"dev": "next dev",
 		"build": "npx prisma migrate && npx prisma generate && next build",
 		"docs": "typedoc --out docs app/api/auth/**/*.ts --tsconfig app/api/tsconfig.json && start docs/index.html",
-		"format": "prettier --write '**/*.{js,jsx,ts,tsx,json,css,md}'",
 		"start": "next start",
 		"lint": "next lint"
 	},

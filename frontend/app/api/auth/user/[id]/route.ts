@@ -44,23 +44,21 @@ export async function DELETE(req: NextRequest) {
 export async function PUT(req: NextRequest) {
   const id = extractUserIDFromURL(req.url);
 
-  const { name, email, password, role } = await req.json();
+  const { password, role, ...rest } = await req.json();
 
   try {
-    let updateData = { name, email, role };
+    let updateData = { ...rest };
     if (password) {
       const hashedPassword = await bcrypt.hash(password, 10);
       //@ts-ignore
       updateData.password = hashedPassword;
     }
-    const user = await User.update({
+    await User.update({
       where: { cuid: id },
       data: updateData,
     });
 
-    const { password: pass, ...rest } = user;
-
-    return NextResponse.json({ success: true, data: rest }, { status: 200 });
+    return NextResponse.json({ success: true, msg: "Usuário atualizado" }, { status: 200 });
   } catch (err) {
     console.log(err);
     return NextResponse.json(

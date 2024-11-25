@@ -51,22 +51,15 @@ class EmailVerification {
 				const transporter = nodemailer.createTransport(this.config)
 
 
+				console.log(dest)
 				const mailOptions = {
 					from: 'Equipe Work Trade Hub <worktradehub@gmail.com>',
-					to: `${dest}`,
+					to: dest,
 					subject: `Verificação e ativação da conta`,
 					text: EmailContent`${username}${this.codigoGerado}`
 				}
 
-				transporter.sendMail({
-					host: process.env.SMTP_HOST,
-					port: process.env.SMTP_PORT,
-					secure: true,
-					auth: {
-						user: process.env.SMTP_USER,
-						pass: process.env.SMTP_PASSWORD
-					}
-				}, console.log)
+				transporter.sendMail( mailOptions, console.log)
 
 			})()
 	}

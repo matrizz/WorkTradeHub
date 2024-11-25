@@ -20,8 +20,7 @@ export default function Notification() {
 			}
 			styles={{
 				header: 'bg-slate-800 h-36 w-full px-2 py-3',
-				main: 'bg-white text-black w-full py-10 px-0 flex flex-col',
-				footer: 'bg-slate-800 h-32 w-full'
+				main: 'bg-white text-black w-full py-10 px-0 flex flex-col'
 			}}>
 			<div className="flex justify-right p-4 items-center w-full h-7 ">
 				<button className="text-xl font-bold  transition-all duration-300 gap-2 flex items-center w-72 h-7">

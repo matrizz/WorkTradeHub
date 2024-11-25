@@ -20,8 +20,7 @@ export default function Jobs() {
 			}
 			styles={{
 				header: 'bg-slate-800 h-36 w-full px-2 py-3',
-				main: 'bg-white text-black w-full p-10 flex flex-col gap-10',
-				footer: 'bg-slate-800 h-32 w-full'
+				main: 'bg-white text-black w-full p-10 flex flex-col gap-10'
 			}}>
 			<div className="flex justify-center items-center w-full h-7 gap-4">
 				<button className="border-2 border-slate-800 rounded-xl w-20 h-10">

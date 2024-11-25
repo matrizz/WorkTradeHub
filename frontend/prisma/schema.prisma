@@ -1,5 +1,5 @@
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
@@ -32,28 +32,33 @@ model User {
   social               String?
   avatar_url           String?
   site_link            String?
-  location             Json @default("{}")
+  location             Json          @default("{}")
   role                 Role
   services             Service[]
   clientTransactions   Transaction[] @relation(name: "ClientTransactions")
   providerTransactions Transaction[] @relation(name: "ProviderTransactions")
 
   Notification Notification[]
+  Candidate Candidate[]
 }
 
 model Service {
-  id          String    @id @default(cuid())
+  id          String   @id @default(cuid())
   providerId  String
   description String
   price       Float
+  title       String
   category    String?
   status      Status
-  images      String? @db.Text
-  location    Json
+  images      String?  @db.Text
+  location    Json?
+  online      Boolean
   createdAt   DateTime @default(now())
-  user        User   @relation(fields: [providerId], references: [cuid])
+  provider    User     @relation(fields: [providerId], references: [cuid])
 
   Transaction Transaction[]
+
+  Candidate Candidate[]
 }
 
 model Notification {
@@ -62,8 +67,18 @@ model Notification {
   message   String
   read      Boolean  @default(false)
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
   user      User     @relation(fields: [userId], references: [cuid])
+}
+
+model Candidate {
+  id         String          @id @default(cuid())
+  status     CandidateStatus
+  serviceId  String
+  clientId   String          @unique
+  clientName String
+  client     User            @relation(fields: [clientId], references: [cuid])
+  service    Service         @relation(fields: [serviceId], references: [id])
+  createdAt  DateTime        @default(now())
 }
 
 enum Role {
@@ -75,4 +90,11 @@ enum Status {
   pending
   inProgress
   completed
+  excluded
+}
+
+enum CandidateStatus {
+  pending
+  accepted
+  rejected
 }

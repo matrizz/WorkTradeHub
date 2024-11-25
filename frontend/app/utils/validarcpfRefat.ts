@@ -6,7 +6,7 @@
  * @param {string} cpf - CPF que ser  verificado
  * @returns {boolean} - true se o CPF for válido, e false caso contrario
  */
-export function ValidarCpf(cpf: string) {
+export function ValidarCpf(cpf: string): boolean {
 	cpf = cpf.replace(/[.-]/g, '')
 
 	let cpfinc = cpf

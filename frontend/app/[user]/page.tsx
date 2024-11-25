@@ -4,7 +4,6 @@ import { useParams, useRouter } from 'next/navigation'
 import { useState, useEffect, Suspense } from 'react'
 import Services from '../components/services'
 import { KeyboardBackspace } from '@mui/icons-material'
-import Modal from '@/app/components/modal/modalInformation'
 import { extractUserNameFromURL } from '../utils/user'
 
 interface User {
@@ -30,15 +29,24 @@ export default function ThirdUserPage() {
 	const [currentUser, setCurrentUser] = useState<{ data: User }>()
 	const [not_found, serNotFound] = useState(false)
 
+	async function getUserServices(user: string, auth: string) {
+		
+	}
+
 	useEffect(() => {
 		const user = extractUserNameFromURL(window.location.pathname)
 			; (async () => {
-				const response = await fetch(`/api/auth/user/u/${user}`)
-				const res = await response.json()
+				const responseData = await fetch(`/api/auth/user/u/${user}`)
+				const res = await responseData.json()
 				if (!res.data) {
 					return serNotFound(true)
 				}
-				setCurrentUser(res)
+				const response = await fetch(`/api/auth/user/services?u=${user}`, {
+					headers: { 'X-Authorization': `${sessionStorage.getItem('tk')}` }
+				})
+				const { data } = await response.json()
+				console.log(data)
+				setJobs(data)
 			})()
 	}, [])
 	const route = useRouter()
@@ -139,45 +147,45 @@ export default function ThirdUserPage() {
 								{currentUser?.data?.social && (
 									<>
 										<i className="fas fa-globe ml-4 mr-2"></i>
-										<span>{currentUser?.data?.social}</span>
+										<a href={currentUser?.data?.social.includes('http') ? currentUser?.data?.social : `http://${currentUser?.data?.social}`} target='_blank'>{currentUser?.data?.social}</a>
 									</>
 								)}
 
 								{currentUser?.data?.site_link && (
 									<>
 										<i className="fas fa-link ml-4 mr-2"></i>
-										<span>{currentUser?.data?.site_link}</span>
+										<a href={currentUser?.data?.site_link.includes('http') ? currentUser?.data?.site_link : `http://${currentUser?.data?.site_link}`} target='_blank' >{currentUser?.data?.site_link}</a>
 									</>
 								)}
 							</div>
 						</div>
 						<div className="flex mt-8 w-full max-w-4xl justify-between">
 							<div className="flex space-x-8">
-								<a
-									href="#"
-									className="text-blue-600 border-b-2 border-blue-600 pb-2">
+								<p className="text-blue-600 border-b-2 border-blue-600 pb-2">
 									Trabalhos Criados
-								</a>
+								</p>
 							</div>
 						</div>
 					</div>
 				</div>
 
 				<div className="p-4 rounded-lg flex justify-center flex-wrap gap-4">
-					{jobs.map((item, i) => (
+					{jobs &&jobs.map((item, i) => (
 						<Services
-							isModalOpen={isModalOpen}
-							onClose={() => setIsModalOpen(false)}
-							onOpen={() => setIsModalOpen(true)}
 							key={i}
-							title={item.title}
 							description={item.desc}
 							price={item.price}
 							images={item.image}
-							onClick={() => { }}
 							location={item.location}
-							primaryText="Conversar"
-							secondaryText="Candidatar-se"
+							title='Teste'
+							leftButton={{
+								text: 'Candidatar-se',
+								async onclick() {
+									const response = await fetch(`/api/auth/services/${item.id}/candidate`, { method: 'POST', headers: { 'X-Authorization': `${sessionStorage.getItem('tk')}` } })
+									const data = await response.json()
+									console.log(data)
+								}
+							}}
 						/>
 					))}
 				</div>

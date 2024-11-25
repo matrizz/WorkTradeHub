@@ -20,11 +20,13 @@ export default function Login() {
 		}
 
 		let bodyContent = JSON.stringify({
-			uf: state,
-			city: city,
-			cep: cep,
+			location: {
+				uf: state,
+				city: city,
+				cep: cep,
+			},
 			social: social,
-			site: siteLink
+			site_link: siteLink
 		})
 
 		let response = await fetch(
@@ -106,7 +108,7 @@ export default function Login() {
 							<span className="text-xs text-gray-400">(opcional)</span>
 						</label>
 						<input
-							type="password"
+							type="text"
 							value={siteLink}
 							onChange={e => setSiteLink(e.target.value)}
 							className="w-full px-4 py-2 mt-1 border rounded-md focus:outline-none focus:ring focus:ring-indigo-200"
@@ -114,7 +116,7 @@ export default function Login() {
 					</div>
 					<div className={`flex p-2 items-center text-black justify-center`}>
 						<div className="w-full">
-							<p className="text-red-500 text-center">{}</p>
+							<p className="text-red-500 text-center">{ }</p>
 						</div>
 					</div>
 					<button

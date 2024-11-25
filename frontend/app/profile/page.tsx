@@ -1,6 +1,6 @@
 'use client'
 
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/navigation'
 import DescProfile from '../components/descProfile'
 import { useState, useEffect } from 'react'
 import Services from '../components/services'
@@ -17,13 +17,14 @@ interface User {
 
 export default function Profile() {
 	const [jobs, setJobs] = useState<any[]>([])
-	const [isModalOpen, setIsModalOpen] = useState(false)
 	const [currentUser, setCurrentUser] = useState<UserProps>({} as UserProps)
+
+	const route = useRouter()
 
 	useEffect(() => {
 		; (async () => {
 			const response = await fetch(
-				`http://localhost:3000/api/auth/user/services?u=${sessionStorage.getItem('cuid')}`,
+				`/api/auth/user/services?u=${sessionStorage.getItem('cuid')}`,
 				{
 					headers: {
 						'X-Authorization': `${sessionStorage.getItem('tk')}`
@@ -31,7 +32,7 @@ export default function Profile() {
 				}
 			)
 			const userdata = await fetch(
-				`http://localhost:3000/api/auth/user/${sessionStorage.getItem('cuid')}`,
+				`/api/auth/user/${sessionStorage.getItem('cuid')}`,
 				{
 					headers: {
 						'X-Authorization': `${sessionStorage.getItem('tk')}`
@@ -171,26 +172,20 @@ export default function Profile() {
 				</div>
 
 				<div className="p-4 rounded-lg flex justify-center flex-wrap gap-4">
-					{jobs.map((job, i) => (
+					{jobs.map((item, i) => (
 						<Services
-							onOpen={() => {
-								setIsModalOpen(true)
-							}}
 							key={i}
-							title={job.name}
-							images={job.images}
-							isModalOpen={isModalOpen}
-							description={job.description}
-							price={job.price}
-							location={job.location}
-							onClick={() => {
-								setIsModalOpen(true)
+							title=''
+							images={item.images}
+							description={item.description}
+							price={item.price}
+							location={item.location}
+							leftButton={{ text: "Editar", onclick: () => {} }}
+							rightButton={{ text: "Excluir", onclick: () => {} }}
+							centerButton={{
+								text: "Candidatos",
+								onclick: () => route.push(`/profile/${item.id}`)
 							}}
-							onClose={() => {
-								setIsModalOpen(false)
-							}}
-							primaryText="Conversar"
-							secondaryText="Candidatar-se"
 						/>
 					))}
 				</div>

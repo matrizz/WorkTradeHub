@@ -4,7 +4,6 @@ import { KeyboardBackspace } from '@mui/icons-material'
 async function getUser(user: string) {
 	const response = await fetch(`/api/auth/user/u/${user}`)
 	const data = await response.json()
-	console.log('bbb', user, 'aaa')
 	return data
 }
 
